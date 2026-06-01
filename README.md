@@ -40,3 +40,6 @@ Individual game repos are available at [github.com/gumgum3294](https://github.co
 ## 📜 License
 
 This project is for educational and personal use.
+
+## Note
+The website is only going to be in Google Sites but there might be a single file soon
