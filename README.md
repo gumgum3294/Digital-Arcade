@@ -37,7 +37,7 @@ Digital Arcade is a web-based gaming portal that brings together classic and ind
 
 Individual game repos are available at [github.com/gumgum3294](https://github.com/gumgum3294?tab=repositories).
 
-## Note
+## 📝 Note
 
 The website is only going to be in Google Sites but there might be a single file soon
 
