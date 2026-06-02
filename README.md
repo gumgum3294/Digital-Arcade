@@ -39,7 +39,7 @@ Individual game repos are available at [github.com/gumgum3294](https://github.co
 
 ## 📝 Note
 
-Digital Arcade's beta single file is now out tools are not working and movies isn't working
+Digital Arcade's beta single file is now out tools are not working and movies are now fixed
 
 ## 📜 License
 
