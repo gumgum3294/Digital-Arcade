@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Digital Arcade 123</title>
+  <link id="faviconLink" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23c084fc'/%3E%3Cstop offset='100%25' stop-color='%237c3aed'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0f'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle' fill='url(%23g)' font-family='Arial' font-weight='900'%3EDA%3C/text%3E%3C/svg%3E" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
 
@@ -78,6 +79,48 @@
       background:var(--accent); border-color:var(--accent2);
       box-shadow:0 0 12px var(--glow);
     }
+
+    /* CLOAK MENU */
+    .cloak-wrap { position:relative; }
+    .cloak-menu {
+      position:absolute; top:46px; right:0;
+      width:240px;
+      background:rgba(10,10,20,0.96);
+      backdrop-filter:blur(16px);
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px;
+      box-shadow:0 8px 30px rgba(0,0,0,0.6), 0 0 20px rgba(124,58,237,0.2);
+      z-index:50;
+    }
+    .cloak-menu-title {
+      font-size:.6rem; letter-spacing:.2em; color:var(--muted);
+      padding:4px 8px 8px; text-transform:uppercase;
+    }
+    .cloak-option {
+      padding:8px 10px; border-radius:6px;
+      font-size:.74rem; cursor:pointer;
+      transition:background .15s; color:var(--text);
+    }
+    .cloak-option:hover { background:rgba(124,58,237,0.18); color:var(--accent2); }
+    .cloak-divider { height:1px; background:var(--border); margin:8px 4px; }
+    .cloak-menu input {
+      width:100%; background:rgba(255,255,255,0.05);
+      border:1px solid var(--border); border-radius:6px;
+      padding:7px 10px; color:var(--text);
+      font-family:'Share Tech Mono',monospace;
+      font-size:.7rem; outline:none; margin-bottom:6px;
+    }
+    .cloak-menu input:focus { border-color:var(--accent2); }
+    .cloak-menu input::placeholder { color:var(--muted); }
+    .cloak-apply-btn {
+      width:100%;
+      background:rgba(124,58,237,0.2); border:1px solid var(--accent);
+      color:var(--accent2); padding:7px; border-radius:6px;
+      font-family:'Share Tech Mono',monospace; font-size:.72rem;
+      cursor:pointer; transition:all .2s; letter-spacing:.04em;
+    }
+    .cloak-apply-btn:hover { background:var(--accent); color:#fff; }
 
     /* LAYOUT */
     .layout { display:flex; height:calc(100vh - 58px); }
@@ -334,8 +377,27 @@
 <body>
 
 <header>
-  <div class="logo-text">DIGITAL ARCADE</div>
+  <div class="logo-text" onclick="goHome()" style="cursor:pointer;" title="Go home">DIGITAL ARCADE</div>
   <div class="logo-badge">123</div>
+  <button class="ctrl-btn" onclick="goHome()" style="font-size:.68rem;padding:5px 12px;">🏠 HOME</button>
+  <div class="cloak-wrap">
+    <button class="ctrl-btn" id="cloakToggle" title="Cloak tab" style="font-size:.68rem;padding:5px 12px;">CLOAKS</button>
+    <div class="cloak-menu hidden" id="cloakMenu">
+      <div class="cloak-menu-title">TAB CLOAK</div>
+      <div class="cloak-option" data-cloak="ixl">📘 IXL</div>
+      <div class="cloak-option" data-cloak="clever">🌿 Clever</div>
+      <div class="cloak-option" data-cloak="drive">📁 Google Drive</div>
+      <div class="cloak-option" data-cloak="gmail">✉️ Gmail</div>
+      <div class="cloak-option" data-cloak="classroom">🎓 Google Classroom</div>
+      <div class="cloak-option" data-cloak="docs">📄 Google Docs</div>
+      <div class="cloak-divider"></div>
+      <input type="text" id="customCloakTitle" placeholder="Custom title..." />
+      <input type="text" id="customCloakIcon" placeholder="Custom icon URL (optional)..." />
+      <button class="cloak-apply-btn" id="applyCustomCloak">Apply Custom</button>
+      <div class="cloak-divider"></div>
+      <div class="cloak-option" data-cloak="reset">↺ Reset to Digital Arcade</div>
+    </div>
+  </div>
   <button class="sidebar-toggle" id="sidebarToggle" title="Hide sidebar">☰</button>
 </header>
 
@@ -665,6 +727,84 @@ function goHome() {
   hideAll();
   document.getElementById('homeScreen').classList.remove('hidden');
 }
+
+// ── TAB CLOAK ──────────────────────────────
+const CLOAK_PRESETS = {
+  ixl: {
+    title: "IXL | Math, Language Arts, Science, Social Studies, and Spanish",
+    icon: "https://www.google.com/s2/favicons?domain=ixl.com&sz=64"
+  },
+  clever: {
+    title: "Clever | Portal",
+    icon: "https://www.google.com/s2/favicons?domain=clever.com&sz=64"
+  },
+  drive: {
+    title: "My Drive - Google Drive",
+    icon: "https://www.google.com/s2/favicons?domain=drive.google.com&sz=64"
+  },
+  gmail: {
+    title: "Inbox (1) - Gmail",
+    icon: "https://www.google.com/s2/favicons?domain=mail.google.com&sz=64"
+  },
+  classroom: {
+    title: "Classes",
+    icon: "https://www.google.com/s2/favicons?domain=classroom.google.com&sz=64"
+  },
+  docs: {
+    title: "Untitled document - Google Docs",
+    icon: "https://www.google.com/s2/favicons?domain=docs.google.com&sz=64"
+  },
+  reset: {
+    title: "Digital Arcade 123",
+    icon: null // resets to the SVG favicon
+  }
+};
+
+const DEFAULT_FAVICON = document.getElementById('faviconLink').href;
+
+function applyCloak(title, iconUrl) {
+  document.title = title;
+  const link = document.getElementById('faviconLink');
+  if (iconUrl) {
+    link.href = iconUrl;
+  } else {
+    link.href = DEFAULT_FAVICON;
+  }
+}
+
+const cloakToggle = document.getElementById('cloakToggle');
+const cloakMenu = document.getElementById('cloakMenu');
+
+cloakToggle.addEventListener('click', (e) => {
+  e.stopPropagation();
+  cloakMenu.classList.toggle('hidden');
+});
+
+document.addEventListener('click', (e) => {
+  if (!cloakMenu.contains(e.target) && e.target !== cloakToggle) {
+    cloakMenu.classList.add('hidden');
+  }
+});
+
+document.querySelectorAll('.cloak-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    const key = opt.dataset.cloak;
+    const preset = CLOAK_PRESETS[key];
+    if (preset) {
+      applyCloak(preset.title, preset.icon);
+    }
+    cloakMenu.classList.add('hidden');
+  });
+});
+
+document.getElementById('applyCustomCloak').addEventListener('click', () => {
+  const titleVal = document.getElementById('customCloakTitle').value.trim();
+  const iconVal = document.getElementById('customCloakIcon').value.trim();
+  if (titleVal) {
+    applyCloak(titleVal, iconVal || null);
+  }
+  cloakMenu.classList.add('hidden');
+});
 
 renderList();
 document.getElementById('gameCount').textContent = ENTRIES.filter(e => e.cat !== 'tools' && e.cat !== 'movies').length;
