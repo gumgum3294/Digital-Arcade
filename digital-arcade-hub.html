@@ -619,11 +619,11 @@
           <div class="game-source">Powered by <a href="http://streamex.sh" target="_blank">streamex.sh</a></div>
         </div>
         <div class="game-controls">
-          <button class="ctrl-btn" onclick="window.open('http://streamex.sh','_blank')">⤢ FULLSCREEN</button>
+          <button class="ctrl-btn" onclick="openStreamexBlank()">⤢ FULLSCREEN</button>
         </div>
       </div>
       <div class="movies-iframe-wrapper">
-        <iframe id="streamexIframe" src="" allowfullscreen allow="autoplay; fullscreen; gamepad; microphone; camera"></iframe>
+        <iframe id="streamexIframe" src="about:blank" allowfullscreen allow="autoplay; fullscreen; gamepad; microphone; camera"></iframe>
       </div>
     </div>
 
@@ -856,8 +856,7 @@ function loadEntry(entry) {
   if (map[entry.url]) {
     document.getElementById(map[entry.url]).classList.remove('hidden');
     if (entry.url === '__movies__') {
-      const ifr = document.getElementById('streamexIframe');
-      if (!ifr.src || ifr.src === window.location.href) ifr.src = 'http://streamex.sh';
+      loadStreamexInline();
     }
     if (entry.url === '__chat__') {
       initChat();
@@ -887,6 +886,30 @@ function openFullscreen() {
   if (!currentEntry) return;
   const w = window.open('about:blank','_blank');
   w.document.write(`<!DOCTYPE html><html><head><title>error 404</title><style>body{margin:0;background:#000;height:100vh;}iframe{width:100%;height:100%;border:none;}</style></head><body><iframe src="${currentEntry.url}"></iframe></body></html>`);
+}
+
+function loadStreamexInline() {
+  const ifr = document.getElementById('streamexIframe');
+  // Load streamex into an about:blank-origin document inside the iframe itself,
+  // same trick as opening a fresh tab — avoids referrer/frame checks blocking it.
+  ifr.src = 'about:blank';
+  ifr.onload = () => {
+    try {
+      const doc = ifr.contentDocument || ifr.contentWindow.document;
+      doc.open();
+      doc.write(`<!DOCTYPE html><html><head><style>html,body{margin:0;padding:0;height:100%;width:100%;overflow:hidden;background:#000;}iframe{width:100%;height:100%;border:none;}</style></head><body><iframe src="http://streamex.sh" allowfullscreen allow="autoplay; fullscreen; gamepad; microphone; camera"></iframe></body></html>`);
+      doc.close();
+    } catch (e) {
+      // Cross-origin write blocked by the browser — fall back to a direct src load
+      ifr.src = 'http://streamex.sh';
+    }
+    ifr.onload = null;
+  };
+}
+
+function openStreamexBlank() {
+  const w = window.open('about:blank', '_blank');
+  w.document.write(`<!DOCTYPE html><html><head><title>Movies & TV</title><style>html,body{margin:0;padding:0;height:100%;width:100%;overflow:hidden;background:#000;}iframe{width:100%;height:100%;border:none;}</style></head><body><iframe src="http://streamex.sh" allowfullscreen allow="autoplay; fullscreen; gamepad; microphone; camera"></iframe></body></html>`);
 }
 
 function copyCode(btn) {
