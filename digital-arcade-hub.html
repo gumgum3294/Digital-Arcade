@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Digital Arcade 123</title>
   <link id="faviconLink" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23c084fc'/%3E%3Cstop offset='100%25' stop-color='%237c3aed'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0f'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle' fill='url(%23g)' font-family='Arial' font-weight='900'%3EDA%3C/text%3E%3C/svg%3E" />
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
 
@@ -371,6 +373,151 @@
       padding:1px 6px; border-radius:3px; margin-left:6px;
     }
 
+    /* CHATROOMS */
+    .chat-area {
+      flex:1; display:flex; flex-direction:column;
+      padding:16px; gap:10px; overflow:hidden;
+    }
+    .chat-name-row {
+      display:flex; gap:8px; flex-shrink:0;
+    }
+    .chat-name-row input {
+      flex:1; background:rgba(255,255,255,0.06);
+      border:1px solid var(--border); border-radius:8px;
+      padding:8px 14px; color:var(--text);
+      font-family:'Share Tech Mono',monospace; font-size:.76rem;
+      outline:none; transition:border-color .2s;
+    }
+    .chat-name-row input:focus { border-color:var(--accent2); }
+    .chat-name-row input::placeholder { color:var(--muted); }
+    .chat-name-row button, .chat-room-row button {
+      background:rgba(124,58,237,0.2); border:1px solid var(--accent);
+      color:var(--accent2); padding:8px 16px; border-radius:8px;
+      font-family:'Share Tech Mono',monospace; font-size:.74rem;
+      cursor:pointer; transition:all .2s;
+    }
+    .chat-name-row button:hover, .chat-room-row button:hover {
+      background:var(--accent); color:#fff; box-shadow:0 0 12px var(--glow);
+    }
+    .chat-current-user {
+      font-size:.68rem; color:var(--accent2); align-self:center; white-space:nowrap;
+    }
+    .chat-room-row {
+      display:flex; gap:8px; flex-shrink:0; align-items:center;
+    }
+    .chat-room-tabs {
+      display:flex; gap:6px; overflow-x:auto; flex:1;
+    }
+    .chat-room-tabs::-webkit-scrollbar { display:none; }
+    .chat-room-tab {
+      flex-shrink:0; background:rgba(255,255,255,0.04);
+      border:1px solid var(--border); color:var(--muted);
+      padding:6px 12px; border-radius:7px;
+      font-family:'Share Tech Mono',monospace; font-size:.7rem;
+      cursor:pointer; transition:all .2s; white-space:nowrap;
+    }
+    .chat-room-tab:hover { color:var(--text); }
+    .chat-room-tab.active {
+      background:rgba(124,58,237,0.25); color:var(--accent2);
+      border-color:var(--accent2);
+    }
+    .chat-new-room-input {
+      background:rgba(255,255,255,0.06); border:1px solid var(--border);
+      border-radius:7px; padding:6px 10px; color:var(--text);
+      font-family:'Share Tech Mono',monospace; font-size:.7rem;
+      outline:none; width:120px; flex-shrink:0;
+    }
+    .chat-messages {
+      flex:1; overflow-y:auto;
+      background:rgba(0,0,0,0.35); border:1px solid var(--border);
+      border-radius:12px; padding:14px; display:flex;
+      flex-direction:column; gap:10px; backdrop-filter:blur(6px);
+    }
+    .chat-messages::-webkit-scrollbar { width:4px; }
+    .chat-messages::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+    .chat-msg-row { display:flex; flex-direction:column; gap:2px; }
+    .chat-msg-head { display:flex; align-items:baseline; gap:8px; }
+    .chat-msg-user { font-size:.72rem; font-weight:bold; color:var(--accent2); }
+    .chat-msg-time { font-size:.6rem; color:var(--muted); }
+    .chat-msg-text { font-size:.78rem; color:var(--text); word-break:break-word; line-height:1.5; }
+    .chat-empty { color:var(--muted); font-size:.74rem; text-align:center; margin:auto; }
+    .chat-send-row { display:flex; gap:8px; flex-shrink:0; }
+    .chat-send-row input {
+      flex:1; background:rgba(255,255,255,0.06);
+      border:1px solid var(--border); border-radius:8px;
+      padding:9px 14px; color:var(--text);
+      font-family:'Share Tech Mono',monospace; font-size:.78rem;
+      outline:none; transition:border-color .2s;
+    }
+    .chat-send-row input:focus { border-color:var(--accent2); }
+    .chat-send-row button {
+      background:var(--accent); border:1px solid var(--accent2);
+      color:#fff; padding:9px 22px; border-radius:8px;
+      font-family:'Share Tech Mono',monospace; font-size:.78rem;
+      cursor:pointer; transition:all .2s; letter-spacing:.05em;
+    }
+    .chat-send-row button:hover { box-shadow:0 0 14px var(--glow); }
+    .chat-hint { font-size:.62rem; color:var(--muted); text-align:center; flex-shrink:0; }
+
+    .chat-room-tab-wrap { position:relative; display:inline-flex; align-items:center; }
+    .chat-room-delete-btn {
+      display:none;
+      background:rgba(220,38,38,0.25); border:1px solid #dc2626;
+      color:#fca5a5; border-radius:5px; font-size:.62rem;
+      padding:2px 6px; margin-left:4px; cursor:pointer;
+      font-family:'Share Tech Mono',monospace; transition:all .2s;
+    }
+    .chat-room-delete-btn:hover { background:#dc2626; color:#fff; }
+    body.admin-mode .chat-room-delete-btn { display:inline-block; }
+
+    .chat-msg-delete-btn {
+      display:none;
+      background:rgba(220,38,38,0.2); border:1px solid #dc2626;
+      color:#fca5a5; border-radius:5px; font-size:.6rem;
+      padding:1px 7px; cursor:pointer; margin-left:auto;
+      font-family:'Share Tech Mono',monospace; transition:all .2s;
+    }
+    .chat-msg-delete-btn:hover { background:#dc2626; color:#fff; }
+    body.admin-mode .chat-msg-delete-btn { display:inline-block; }
+
+    #adminToggleBtn.active {
+      background:var(--accent); color:#fff; border-color:var(--accent2);
+      box-shadow:0 0 12px var(--glow);
+    }
+
+    .admin-modal-overlay {
+      position:fixed; inset:0; background:rgba(0,0,0,0.7);
+      backdrop-filter:blur(6px); display:flex; align-items:center;
+      justify-content:center; z-index:200;
+    }
+    .admin-modal-box {
+      background:rgba(15,15,25,0.97); border:1px solid var(--border);
+      border-radius:12px; padding:24px; width:300px;
+      box-shadow:0 0 40px rgba(124,58,237,0.3);
+    }
+    .admin-modal-box h3 {
+      font-family:'Orbitron',sans-serif; font-size:.95rem;
+      color:var(--accent2); margin-bottom:14px; letter-spacing:.06em;
+    }
+    .admin-modal-box input {
+      width:100%; background:rgba(255,255,255,0.06);
+      border:1px solid var(--border); border-radius:7px;
+      padding:9px 12px; color:var(--text); margin-bottom:12px;
+      font-family:'Share Tech Mono',monospace; font-size:.78rem; outline:none;
+    }
+    .admin-modal-box input:focus { border-color:var(--accent2); }
+    .admin-modal-actions { display:flex; gap:8px; }
+    .admin-modal-actions button {
+      flex:1; padding:8px; border-radius:7px;
+      font-family:'Share Tech Mono',monospace; font-size:.72rem;
+      cursor:pointer; transition:all .2s; border:1px solid var(--border);
+    }
+    .admin-modal-confirm { background:var(--accent); color:#fff; border-color:var(--accent2); }
+    .admin-modal-confirm:hover { box-shadow:0 0 12px var(--glow); }
+    .admin-modal-cancel { background:rgba(255,255,255,0.05); color:var(--muted); }
+    .admin-modal-cancel:hover { color:var(--text); }
+    .admin-modal-error { color:#fca5a5; font-size:.68rem; margin-top:-6px; margin-bottom:10px; }
+
     .hidden { display:none !important; }
   </style>
 </head>
@@ -410,6 +557,7 @@
       <button class="cat-tab active" data-cat="all">ALL</button>
       <button class="cat-tab" data-cat="tools">TOOLS</button>
       <button class="cat-tab" data-cat="movies">MOVIES</button>
+      <button class="cat-tab" data-cat="chat">CHATROOMS</button>
       <button class="cat-tab" data-cat="action">ACTION</button>
       <button class="cat-tab" data-cat="horror">HORROR</button>
       <button class="cat-tab" data-cat="idle">IDLE</button>
@@ -431,8 +579,9 @@
       </div>
       <div class="home-stats">
         <div class="stat-box"><div class="stat-num" id="gameCount">0</div><div class="stat-label">Games</div></div>
-        <div class="stat-box"><div class="stat-num">5</div><div class="stat-label">Tools</div></div>
+        <div class="stat-box"><div class="stat-num">4</div><div class="stat-label">Tools</div></div>
         <div class="stat-box"><div class="stat-num">∞</div><div class="stat-label">Movies</div></div>
+        <div class="stat-box"><div class="stat-num">💬</div><div class="stat-label">Chatrooms</div></div>
       </div>
       <div class="home-hint">← Select a game, tool, or movie from the sidebar</div>
     </div>
@@ -581,6 +730,39 @@
       </div>
     </div>
 
+    <!-- CHATROOMS -->
+    <div class="chat-area hidden" id="chatArea">
+      <div class="game-header">
+        <div>
+          <div class="game-title">💬 Chatrooms</div>
+          <div class="game-source">Live chat — powered by Firebase</div>
+        </div>
+        <div class="game-controls">
+          <button class="ctrl-btn" id="adminToggleBtn" onclick="toggleAdminMode()">🔑 Admin</button>
+        </div>
+      </div>
+
+      <div class="chat-name-row">
+        <input type="text" id="chatUsernameInput" placeholder="Pick a username" maxlength="20" />
+        <button onclick="setChatUsername()">Set name</button>
+        <span class="chat-current-user" id="chatCurrentUserLabel"></span>
+      </div>
+
+      <div class="chat-room-row">
+        <div class="chat-room-tabs" id="chatRoomTabs"></div>
+        <input type="text" id="chatNewRoomInput" class="chat-new-room-input" placeholder="new room" maxlength="24" />
+        <button onclick="createChatRoom()">+ Room</button>
+      </div>
+
+      <div class="chat-messages" id="chatMessages"></div>
+
+      <div class="chat-send-row">
+        <input type="text" id="chatMessageInput" placeholder="Message #general" maxlength="500" />
+        <button onclick="sendChatMessage()">Send</button>
+      </div>
+      <div class="chat-hint">Messages are public to everyone visiting this site in this room.</div>
+    </div>
+
   </main>
 </div>
 
@@ -591,6 +773,8 @@ const ENTRIES = [
   { name:"Console Scripts",    url:"__console__",      cat:"tools",  icon:"💻", tag:"TOOL"   },
   { name:"Cherri Single File", url:"__cherri__",       cat:"tools",  icon:"🍒", tag:"TOOL"   },
   { name:"Music Player",       url:"__music__",        cat:"tools",  icon:"🎵", tag:"TOOL"   },
+  // CHATROOMS
+  { name:"💬 Chatrooms", url:"__chat__", cat:"chat", icon:"💬", tag:"LIVE" },
   // MOVIES
   { name:"🎬 Movies & TV Shows", url:"__movies__",     cat:"movies", icon:"🎥", tag:"STREAM" },
   // GAMES
@@ -653,7 +837,7 @@ function makeItem(e) {
 }
 
 function hideAll() {
-  ['homeScreen','gameArea','moviesArea','bookmarkletsArea','consoleArea','cherriArea','musicArea']
+  ['homeScreen','gameArea','moviesArea','bookmarkletsArea','consoleArea','cherriArea','musicArea','chatArea']
     .forEach(id => document.getElementById(id).classList.add('hidden'));
 }
 
@@ -667,12 +851,16 @@ function loadEntry(entry) {
     '__console__':     'consoleArea',
     '__cherri__':      'cherriArea',
     '__music__':       'musicArea',
+    '__chat__':        'chatArea',
   };
   if (map[entry.url]) {
     document.getElementById(map[entry.url]).classList.remove('hidden');
     if (entry.url === '__movies__') {
       const ifr = document.getElementById('streamexIframe');
       if (!ifr.src || ifr.src === window.location.href) ifr.src = 'http://streamex.sh';
+    }
+    if (entry.url === '__chat__') {
+      initChat();
     }
     return;
   }
@@ -806,8 +994,265 @@ document.getElementById('applyCustomCloak').addEventListener('click', () => {
   cloakMenu.classList.add('hidden');
 });
 
+// ── FIREBASE CHATROOMS ───────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyC93A_J62nIYW93PCHAz4TQWezbE8IQnOw",
+  authDomain: "digital-arcade-chat.firebaseapp.com",
+  databaseURL: "https://digital-arcade-chat-default-rtdb.firebaseio.com",
+  projectId: "digital-arcade-chat",
+  storageBucket: "digital-arcade-chat.firebasestorage.app",
+  messagingSenderId: "17009838035",
+  appId: "1:17009838035:web:a892d9cddd75cee8ef5126",
+  measurementId: "G-CNWRG061JC"
+};
+
+let chatApp, chatDb;
+let chatInitialized = false;
+let chatUsername = '';
+let chatCurrentRoom = 'general';
+let chatRooms = ['general'];
+let chatRoomListener = null;
+
+function initChat() {
+  if (chatInitialized) return;
+  chatInitialized = true;
+
+  try {
+    chatApp = firebase.initializeApp(firebaseConfig);
+    chatDb = firebase.database();
+  } catch (e) {
+    document.getElementById('chatMessages').innerHTML =
+      '<div class="chat-empty">Could not connect to chat. Check your connection and reload.</div>';
+    return;
+  }
+
+  // Load saved username from localStorage equivalent (in-memory + browser storage fallback)
+  try {
+    const saved = window.localStorage ? window.localStorage.getItem('digitalArcadeChatUsername') : null;
+    if (saved) {
+      chatUsername = saved;
+      document.getElementById('chatUsernameInput').value = saved;
+      document.getElementById('chatCurrentUserLabel').textContent = 'Chatting as ' + saved;
+    }
+  } catch (e) {}
+
+  // Listen for room list
+  chatDb.ref('rooms').on('value', (snap) => {
+    const val = snap.val();
+    if (val) {
+      chatRooms = Object.keys(val);
+    } else {
+      chatRooms = ['general'];
+      chatDb.ref('rooms/general').set(true);
+    }
+    renderChatRoomTabs();
+  });
+
+  switchChatRoom('general');
+}
+
+function renderChatRoomTabs() {
+  const wrap = document.getElementById('chatRoomTabs');
+  wrap.innerHTML = '';
+  chatRooms.forEach(room => {
+    const tabWrap = document.createElement('div');
+    tabWrap.className = 'chat-room-tab-wrap';
+
+    const btn = document.createElement('div');
+    btn.className = 'chat-room-tab' + (room === chatCurrentRoom ? ' active' : '');
+    btn.textContent = '#' + room;
+    btn.onclick = () => switchChatRoom(room);
+    tabWrap.appendChild(btn);
+
+    if (room !== 'general') {
+      const del = document.createElement('button');
+      del.className = 'chat-room-delete-btn';
+      del.textContent = '✕';
+      del.title = 'Delete room';
+      del.onclick = (e) => { e.stopPropagation(); deleteChatRoom(room); };
+      tabWrap.appendChild(del);
+    }
+
+    wrap.appendChild(tabWrap);
+  });
+}
+
+function deleteChatRoom(room) {
+  if (!confirm('Delete #' + room + ' and all its messages? This cannot be undone.')) return;
+  chatDb.ref('rooms/' + room).remove();
+  chatDb.ref('messages/' + room).remove();
+  if (chatCurrentRoom === room) {
+    switchChatRoom('general');
+  }
+}
+
+function switchChatRoom(room) {
+  chatCurrentRoom = room;
+  document.getElementById('chatMessageInput').placeholder = 'Message #' + room;
+  renderChatRoomTabs();
+
+  if (chatRoomListener) {
+    chatRoomListener.off();
+  }
+
+  const msgsRef = chatDb.ref('messages/' + room).limitToLast(100);
+  chatRoomListener = msgsRef;
+  msgsRef.on('value', (snap) => {
+    const val = snap.val();
+    const msgs = val
+      ? Object.entries(val).map(([key, v]) => ({ key, ...v })).sort((a, b) => a.ts - b.ts)
+      : [];
+    renderChatMessages(msgs);
+  });
+}
+
+function renderChatMessages(msgs) {
+  const list = document.getElementById('chatMessages');
+  list.innerHTML = '';
+  if (!msgs.length) {
+    list.innerHTML = '<div class="chat-empty">No messages yet. Say hello.</div>';
+    return;
+  }
+  msgs.forEach(msg => {
+    const row = document.createElement('div');
+    row.className = 'chat-msg-row';
+    const head = document.createElement('div');
+    head.className = 'chat-msg-head';
+    const userSpan = document.createElement('span');
+    userSpan.className = 'chat-msg-user';
+    userSpan.textContent = msg.user;
+    const timeSpan = document.createElement('span');
+    timeSpan.className = 'chat-msg-time';
+    timeSpan.textContent = new Date(msg.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    head.appendChild(userSpan);
+    head.appendChild(timeSpan);
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'chat-msg-delete-btn';
+    delBtn.textContent = '🗑';
+    delBtn.title = 'Delete message';
+    delBtn.onclick = () => deleteChatMessage(msg.key);
+    head.appendChild(delBtn);
+
+    const body = document.createElement('div');
+    body.className = 'chat-msg-text';
+    body.textContent = msg.text;
+    row.appendChild(head);
+    row.appendChild(body);
+    list.appendChild(row);
+  });
+  list.scrollTop = list.scrollHeight;
+}
+
+function deleteChatMessage(key) {
+  chatDb.ref('messages/' + chatCurrentRoom + '/' + key).remove();
+}
+
+function setChatUsername() {
+  const val = document.getElementById('chatUsernameInput').value.trim();
+  if (!val) return;
+  chatUsername = val;
+  document.getElementById('chatCurrentUserLabel').textContent = 'Chatting as ' + val;
+  try {
+    if (window.localStorage) window.localStorage.setItem('digitalArcadeChatUsername', val);
+  } catch (e) {}
+}
+
+function createChatRoom() {
+  const input = document.getElementById('chatNewRoomInput');
+  const val = input.value.trim().toLowerCase().replace(/[^a-z0-9-]/g, '');
+  if (!val) return;
+  chatDb.ref('rooms/' + val).set(true);
+  switchChatRoom(val);
+  input.value = '';
+}
+
+function sendChatMessage() {
+  const input = document.getElementById('chatMessageInput');
+  const text = input.value.trim();
+  if (!text) return;
+  if (!chatUsername) {
+    alert('Set a username first.');
+    return;
+  }
+  const newRef = chatDb.ref('messages/' + chatCurrentRoom).push();
+  newRef.set({
+    user: chatUsername,
+    text: text,
+    ts: Date.now()
+  });
+  input.value = '';
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.target && e.target.id === 'chatMessageInput' && e.key === 'Enter') sendChatMessage();
+  if (e.target && e.target.id === 'chatUsernameInput' && e.key === 'Enter') setChatUsername();
+  if (e.target && e.target.id === 'chatNewRoomInput' && e.key === 'Enter') createChatRoom();
+});
+
+// ── ADMIN MODE ────────────────────────────────
+const ADMIN_PASSWORD = "Kx7#vN2$pQm9!wRt4@Lz";
+let isAdmin = false;
+
+function toggleAdminMode() {
+  if (isAdmin) {
+    isAdmin = false;
+    document.body.classList.remove('admin-mode');
+    document.getElementById('adminToggleBtn').classList.remove('active');
+    document.getElementById('adminToggleBtn').textContent = '🔑 Admin';
+    return;
+  }
+  showAdminPasswordModal();
+}
+
+function showAdminPasswordModal() {
+  const overlay = document.createElement('div');
+  overlay.className = 'admin-modal-overlay';
+  overlay.innerHTML = `
+    <div class="admin-modal-box">
+      <h3>🔑 Admin Access</h3>
+      <input type="password" id="adminPasswordInput" placeholder="Enter admin password" autocomplete="off" />
+      <div class="admin-modal-error hidden" id="adminPasswordError">Incorrect password.</div>
+      <div class="admin-modal-actions">
+        <button class="admin-modal-cancel" id="adminCancelBtn">Cancel</button>
+        <button class="admin-modal-confirm" id="adminConfirmBtn">Unlock</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  const input = document.getElementById('adminPasswordInput');
+  const errorMsg = document.getElementById('adminPasswordError');
+  input.focus();
+
+  function tryUnlock() {
+    if (input.value === ADMIN_PASSWORD) {
+      isAdmin = true;
+      document.body.classList.add('admin-mode');
+      document.getElementById('adminToggleBtn').classList.add('active');
+      document.getElementById('adminToggleBtn').textContent = '🔓 Admin ON';
+      overlay.remove();
+    } else {
+      errorMsg.classList.remove('hidden');
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  document.getElementById('adminConfirmBtn').onclick = tryUnlock;
+  document.getElementById('adminCancelBtn').onclick = () => overlay.remove();
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') tryUnlock();
+    if (e.key === 'Escape') overlay.remove();
+  });
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.remove();
+  });
+}
+
+
 renderList();
-document.getElementById('gameCount').textContent = ENTRIES.filter(e => e.cat !== 'tools' && e.cat !== 'movies').length;
+document.getElementById('gameCount').textContent = ENTRIES.filter(e => e.cat !== 'tools' && e.cat !== 'movies' && e.cat !== 'chat').length;
 </script>
 </body>
 </html>
