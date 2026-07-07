@@ -1227,8 +1227,25 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ── ADMIN MODE ────────────────────────────────
-const ADMIN_PASSWORD = "Kx7#vN2$pQm9!wRt4@Lz";
+// Password check now happens server-side — replace this URL with your own
+// Val Town function URL once you've created it (see checkAdminPassword.val.ts).
+const ADMIN_CHECK_URL = "https://gumgum3294--0c3f42e079a211f1acb91607ee4eb77e.web.val.run";
 let isAdmin = false;
+
+async function verifyAdminPassword(candidate) {
+  try {
+    const res = await fetch(ADMIN_CHECK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: candidate }),
+    });
+    const data = await res.json();
+    return data.ok === true;
+  } catch (err) {
+    console.error("Admin check request failed:", err);
+    return false;
+  }
+}
 
 function toggleAdminMode() {
   if (isAdmin) {
@@ -1261,8 +1278,15 @@ function showAdminPasswordModal() {
   const errorMsg = document.getElementById('adminPasswordError');
   input.focus();
 
-  function tryUnlock() {
-    if (input.value === ADMIN_PASSWORD) {
+  async function tryUnlock() {
+    const confirmBtn = document.getElementById('adminConfirmBtn');
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = 'Checking...';
+    const correct = await verifyAdminPassword(input.value);
+    confirmBtn.disabled = false;
+    confirmBtn.textContent = 'Unlock';
+
+    if (correct) {
       isAdmin = true;
       document.body.classList.add('admin-mode');
       document.getElementById('adminToggleBtn').classList.add('active');
