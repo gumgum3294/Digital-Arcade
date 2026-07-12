@@ -1229,7 +1229,7 @@ document.addEventListener('keydown', (e) => {
 // ── ADMIN MODE ────────────────────────────────
 // Password check now happens server-side — replace this URL with your own
 // Val Town function URL once you've created it (see checkAdminPassword.val.ts).
-const ADMIN_CHECK_URL = "https://gumgum3294--0c3f42e079a211f1acb91607ee4eb77e.web.val.run";
+const ADMIN_CHECK_URL = "https://check-admin-password.anthonyasad2015.workers.dev/";
 let isAdmin = false;
 
 async function verifyAdminPassword(candidate) {
@@ -1239,10 +1239,12 @@ async function verifyAdminPassword(candidate) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password: candidate }),
     });
+    console.log("Admin check response status:", res.status);
     const data = await res.json();
+    console.log("Admin check response body:", data);
     return data.ok === true;
   } catch (err) {
-    console.error("Admin check request failed:", err);
+    console.error("Admin check request failed (network/CORS error):", err);
     return false;
   }
 }
