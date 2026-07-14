@@ -585,10 +585,6 @@
         <div class="stat-box"><div class="stat-num">💬</div><div class="stat-label">Chatrooms</div></div>
       </div>
       <div class="home-hint">← Select a game, tool, or movie from the sidebar</div>
-      <div class="home-links" style="display:flex; gap:12px; justify-content:center; margin-top:24px;">
-        <a href="https://discord.gg/RcFPaTmFv7" target="_blank" rel="noopener noreferrer" class="ctrl-btn" style="font-size:.75rem;padding:8px 16px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">💬 Discord</a>
-        <a href="https://github.com/gumgum3294/Digital-Arcade" target="_blank" rel="noopener noreferrer" class="ctrl-btn" style="font-size:.75rem;padding:8px 16px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">🐙 GitHub</a>
-      </div>
     </div>
 
     <!-- GAME AREA -->
@@ -1318,3 +1314,8 @@ function showAdminPasswordModal() {
 }
 
 
+renderList();
+document.getElementById('gameCount').textContent = ENTRIES.filter(e => e.cat !== 'tools' && e.cat !== 'movies' && e.cat !== 'chat').length;
+</script>
+</body>
+</html>
