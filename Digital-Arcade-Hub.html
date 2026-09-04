@@ -608,7 +608,7 @@
           <div class="loading-spinner"></div>
           <div class="loading-text">LOADING...</div>
         </div>
-        <iframe class="main-iframe" id="mainIframe" src="" onload="hideLoading()"></iframe>
+        <iframe class="main-iframe" id="mainIframe" src="" allowfullscreen allow="autoplay; fullscreen; gamepad; microphone; camera" onload="hideLoading()"></iframe>
       </div>
       <div class="source-bar">
         <span class="source-label">🗂️ Game codes sourced from:</span>
@@ -849,7 +849,21 @@ function renderList() {
 function makeItem(e) {
   const div = document.createElement('div');
   div.className = 'game-item' + (currentEntry === e ? ' active' : '');
-  div.innerHTML = `<div class="game-icon">${e.icon}</div><div class="game-name">${e.name}</div><div class="game-tag">${e.tag}</div>`;
+  const name = String(e.name || 'Game');
+  const text = name.toLowerCase();
+  let icon = e.icon || '🎮';
+  let tag = e.tag || 'ARCADE';
+  if (!e.icon || !e.tag) {
+    if (/fnf|friday night|music|rhythm|osu|pibby/.test(text)) { icon = '🎵'; tag = 'MUSIC'; }
+    else if (/racing|race|car|driving|road|drift|speed|bmx/.test(text)) { icon = '🏎️'; tag = 'RACE'; }
+    else if (/horror|fnaf|five nights|scary|slender|granny|creep/.test(text)) { icon = '👻'; tag = 'HORROR'; }
+    else if (/puzzle|quiz|2048|sort|memory|mahjong|match|sudoku|minesweeper/.test(text)) { icon = '🧩'; tag = 'PUZZLE'; }
+    else if (/idle|clicker|cookie/.test(text)) { icon = '🍪'; tag = 'IDLE'; }
+    else if (/rpg|adventure|quest|dungeon|pokemon|knight/.test(text)) { icon = '⚔️'; tag = 'RPG'; }
+    else if (/shooter|shoot|gun|war|battle|sniper|weapon|zombie/.test(text)) { icon = '🎯'; tag = 'ACTION'; }
+    else if (/sports|basket|soccer|football|baseball|golf|bowling|tennis/.test(text)) { icon = '🏆'; tag = 'SPORTS'; }
+  }
+  div.innerHTML = `<div class="game-icon">${icon}</div><div class="game-name">${name}</div><div class="game-tag">${tag}</div>`;
   div.addEventListener('click', () => loadEntry(e));
   return div;
 }
@@ -886,7 +900,45 @@ function loadEntry(entry) {
   document.getElementById('currentGameSource').innerHTML = `Source: <a href="${entry.url}" target="_blank">${entry.url}</a>`;
   const ls = document.getElementById('loadingScreen');
   ls.style.opacity = '1'; ls.style.display = 'flex';
-  document.getElementById('mainIframe').src = entry.url;
+
+  const iframe = document.getElementById('mainIframe');
+  if (entry.cherri) {
+    // Cherri games are complete HTML documents. Fetch the document, preserve its
+    // original relative-asset base, and render it inside a nested game iframe.
+    iframe.srcdoc = '<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}iframe{display:block;width:100%;height:100%;border:0}</style></head><body><div style="color:#fff;font:14px Arial;padding:20px">Loading game…</div></body></html>';
+    fetch(entry.url, { cache: 'no-store' })
+      .then(response => {
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return response.text();
+      })
+      .then(html => {
+        const baseHref = entry.url.substring(0, entry.url.lastIndexOf('/') + 1);
+        if (!/<base\b[^>]*>/i.test(html)) {
+          const baseTag = `<base href="${baseHref.replace(/"/g, '&quot;')}">`;
+          if (/<head\b[^>]*>/i.test(html)) html = html.replace(/<head\b[^>]*>/i, m => m + baseTag);
+          else html = baseTag + html;
+        }
+        // Escape the fetched document for an HTML srcdoc attribute. JSON.stringify()
+        // cannot be inserted directly into an unquoted srcdoc attribute because the
+        // browser will interpret the document's quotes/markup as outer HTML.
+        const escapedGameHtml = html
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+        const outer = '<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}iframe{display:block;width:100%;height:100%;border:0}</style></head><body><iframe sandbox="allow-scripts allow-forms allow-modals allow-pointer-lock allow-same-origin" allowfullscreen allow="autoplay; fullscreen; gamepad; microphone; camera" srcdoc="' + escapedGameHtml + '"></iframe></body></html>';
+        iframe.srcdoc = outer;
+        hideLoading();
+      })
+      .catch(error => {
+        iframe.srcdoc = '<html><body style="margin:0;background:#000;color:#fff;font-family:Arial;display:grid;place-items:center;height:100vh"><div style="text-align:center"><h2>Game failed to load</h2><p>' + String(error.message).replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</p></div></body></html>';
+        hideLoading();
+      });
+  } else {
+    iframe.srcdoc = '';
+    iframe.src = entry.url;
+  }
+
 }
 
 function hideLoading() {
@@ -898,14 +950,27 @@ function reloadGame() {
   if (!currentEntry) return;
   const ls = document.getElementById('loadingScreen');
   ls.style.opacity = '1'; ls.style.display = 'flex';
-  document.getElementById('mainIframe').src = currentEntry.url;
+  loadEntry(currentEntry);
 }
 function openFullscreen() {
   if (!currentEntry) return;
+  const iframe = document.getElementById('mainIframe');
+  if (!iframe) return;
+  try {
+    const request = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.msRequestFullscreen;
+    if (request) {
+      const result = request.call(iframe);
+      if (result && typeof result.catch === 'function') result.catch(() => {});
+      return;
+    }
+  } catch (e) {}
+  // Fallback: open the game itself in a clean fullscreen-sized window.
   const w = window.open('about:blank','_blank');
-  w.document.write(`<!DOCTYPE html><html><head><title>error 404</title><style>body{margin:0;background:#000;height:100vh;}iframe{width:100%;height:100%;border:none;}</style></head><body><iframe src="${currentEntry.url}"></iframe></body></html>`);
+  if (!w) return;
+  const gameUrl = currentEntry.url;
+  w.document.write(`<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>${currentEntry.name || 'Game'}</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}iframe{width:100%;height:100%;border:0}</style></head><body><iframe src="${gameUrl}" allowfullscreen allow="autoplay; fullscreen; gamepad; microphone; camera"></iframe></body></html>`);
+  w.document.close();
 }
-
 function loadStreamexInline() {
   const ifr = document.getElementById('streamexIframe');
   // Load streamex into an about:blank-origin document inside the iframe itself,
@@ -1320,6 +1385,88 @@ function showAdminPasswordModal() {
 
 renderList();
 document.getElementById('gameCount').textContent = ENTRIES.filter(e => e.cat !== 'tools' && e.cat !== 'movies' && e.cat !== 'chat').length;
+</script>
+<script>
+// CHERRI GAME IMPORT — adds the games from the Cherri single file without changing the existing arcade entries.
+(function importCherriGames() {
+  const CHERRI_GAME_ZONES_URL = "https://cdn.jsdelivr.net/gh/freebuisness/assets@latest/zones.json";
+  const CHERRI_GAME_COVER_BASE = "https://cdn.jsdelivr.net/gh/freebuisness/covers@latest";
+  const CHERRI_GAME_HTML_BASE = "https://cdn.jsdelivr.net/gh/freebuisness/html@latest";
+
+  function resolveCherriGameAsset(value, fallbackBase) {
+    if (!value) return "";
+    let resolved = String(value)
+      .replace(/\{COVER_URL\}/g, CHERRI_GAME_COVER_BASE)
+      .replace(/\{HTML_URL\}/g, CHERRI_GAME_HTML_BASE)
+      .replace(/\{HTML\}/g, CHERRI_GAME_HTML_BASE)
+      .replace(/\{COVERS\}/g, CHERRI_GAME_COVER_BASE);
+    if (resolved.startsWith("http://") || resolved.startsWith("https://")) return resolved;
+    return fallbackBase + "/" + resolved.replace(/^\/+/, "");
+  }
+
+  function normalizeCherriGame(raw) {
+    const candidates = [raw, raw?.data, raw?.attributes].filter(Boolean);
+    for (const obj of candidates) {
+      const name = obj.name || obj.title || obj.n || "";
+      const cover = obj.cover || obj.image || obj.thumbnail || obj.img || obj.coverUrl || "";
+      const url = obj.url || obj.src || obj.link || obj.path || obj.gameUrl || "";
+      const author = obj.author || obj.creator || obj.by || "";
+      const special = Array.isArray(obj.special) ? obj.special : [];
+      if (name && (cover || url)) {
+        return {
+          name: String(name).trim(),
+          cover: resolveCherriGameAsset(cover, CHERRI_GAME_COVER_BASE),
+          url: resolveCherriGameAsset(url, CHERRI_GAME_HTML_BASE),
+          author: String(author).trim(),
+          special
+        };
+      }
+    }
+    return null;
+  }
+
+  fetch(CHERRI_GAME_ZONES_URL)
+    .then(response => {
+      if (!response.ok) throw new Error("HTTP " + response.status);
+      return response.json();
+    })
+    .then(data => {
+      const raw = Array.isArray(data) ? data : (data?.games || data?.data || Object.values(data));
+      const imported = raw
+        .map(normalizeCherriGame)
+        .filter(Boolean)
+        .filter(game => {
+          const name = game.name.toLowerCase();
+          return !name.includes("suggest games") && !name.includes("comments");
+        })
+        .map(game => {
+          const special = (game.special || []).map(x => String(x).toLowerCase());
+          let cat = "arcade", icon = "🎮", tag = "CHERRI";
+          const text = (game.name + " " + special.join(" ")).toLowerCase();
+          if (/fnf|friday night|music|rhythm|osu/.test(text)) { cat = "arcade"; icon = "🎵"; tag = "MUSIC"; }
+          else if (/racing|car|driving|road|drift/.test(text)) { cat = "racing"; icon = "🏎️"; tag = "RACE"; }
+          else if (/horror|fnaf|scary|creep/.test(text)) { cat = "horror"; icon = "👻"; tag = "HORROR"; }
+          else if (/puzzle|2048|sort|memory|mahjong|match/.test(text)) { cat = "puzzle"; icon = "🧩"; tag = "PUZZLE"; }
+          else if (/idle|clicker|cookie/.test(text)) { cat = "idle"; icon = "🍪"; tag = "IDLE"; }
+          else if (/rpg|adventure|quest|dungeon/.test(text)) { cat = "rpg"; icon = "⚔️"; tag = "RPG"; }
+          else if (/shooter|shoot|gun|war|battle/.test(text)) { cat = "action"; icon = "🎯"; tag = "ACTION"; }
+          return { name: game.name, url: game.url, cat, icon, tag, cherri: true };
+        });
+
+      const existingUrls = new Set(ENTRIES.map(entry => entry.url));
+      const existingNames = new Set(ENTRIES.map(entry => entry.name.toLowerCase()));
+      imported.forEach(game => {
+        if (!existingUrls.has(game.url) && !existingNames.has(game.name.toLowerCase())) {
+          ENTRIES.push(game);
+        }
+      });
+
+      renderList();
+    })
+    .catch(() => {
+      // Keep the existing Digital Arcade games unchanged if Cherri's game list cannot be loaded.
+    });
+})();
 </script>
 </body>
 </html>
