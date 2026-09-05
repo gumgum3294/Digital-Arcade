@@ -297,6 +297,16 @@
     }
     .movies-iframe-wrapper iframe { width:100%; height:100%; border:none; display:block; }
 
+    /* HTML RUNNER */
+    #htmlRunnerArea .html-runner-box { display:flex; flex-direction:column; gap:12px; }
+    #htmlRunnerArea #htmlRunnerCode { width:100%; min-height:320px; box-sizing:border-box; resize:vertical; background:#08080d; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:14px; font-family:'Share Tech Mono',monospace; font-size:.78rem; line-height:1.5; outline:none; }
+    #htmlRunnerArea #htmlRunnerCode:focus { border-color:var(--accent); }
+    #htmlRunnerArea .runner-actions { display:flex; gap:8px; flex-wrap:wrap; }
+    #htmlRunnerArea .runner-actions button { cursor:pointer; }
+    #htmlRunnerArea #htmlRunnerPreview { width:100%; height:420px; border:1px solid var(--border); border-radius:8px; background:#fff; display:block; }
+    #htmlRunnerArea #htmlRunnerPreview:fullscreen { width:100vw; height:100vh; border:0; border-radius:0; background:#fff; }
+    #htmlRunnerArea .runner-fullscreen-btn { margin-left:auto; }
+
     /* TOOL AREA */
     .tool-area {
       flex:1; display:flex; flex-direction:column;
@@ -580,7 +590,7 @@
       </div>
       <div class="home-stats">
         <div class="stat-box"><div class="stat-num" id="gameCount">0</div><div class="stat-label">Games</div></div>
-        <div class="stat-box"><div class="stat-num">4</div><div class="stat-label">Tools</div></div>
+        <div class="stat-box"><div class="stat-num">5</div><div class="stat-label">Tools</div></div>
         <div class="stat-box"><div class="stat-num">∞</div><div class="stat-label">Movies</div></div>
         <div class="stat-box"><div class="stat-num">💬</div><div class="stat-label">Chatrooms</div></div>
       </div>
@@ -672,6 +682,10 @@
     <code>javascript:(function(){setInterval(function(){var b=document.querySelector('.ytp-ad-skip-button,.ytp-skip-ad-button');if(b)b.click();var a=document.querySelector('.ad-showing video');if(a)a.currentTime=a.duration},500)})()</code>
     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
   </div>
+  <div class="tool-card" onclick="loadEntry({url:'__htmlrunner__', name:'HTML Runner'})" style="cursor:pointer;">
+    <div class="tool-card-title">💻 HTML Runner</div>
+    <div class="tool-card-desc">Run your own HTML, CSS, and JavaScript instantly.</div>
+  </div>
   <div class="tool-more">(More on the way)</div>
 </div>
 
@@ -702,6 +716,38 @@
   <div class="tool-more">(More on the way)</div>
 </div>
 
+    </div>
+
+    <!-- HTML RUNNER -->
+    <div class="tool-area hidden" id="htmlRunnerArea">
+      <div class="tool-page">
+        <h2>💻 HTML Runner</h2>
+        <div class="tool-section">
+          <h3>Run HTML</h3>
+          <p>Paste HTML code below and run it instantly in the preview.</p>
+        </div>
+        <div class="tool-card html-runner-box">
+          <div class="tool-card-title">💻 HTML / CSS / JavaScript Runner</div>
+          <div class="tool-card-desc">Write a complete HTML file below, then run it in the preview. Your code stays inside the browser sandbox.</div>
+          <textarea id="htmlRunnerCode" spellcheck="false"><!DOCTYPE html>
+<html>
+<head>
+  <style>body{font-family:Arial;text-align:center;padding:40px}</style>
+</head>
+<body>
+  <h1>Hello!</h1>
+  <button onclick="document.body.style.background='black';document.body.style.color='white'">Click me</button>
+</body>
+</html></textarea>
+          <div class="runner-actions">
+            <button class="tool-link-btn" type="button" onclick="runHTMLRunner()">▶ Run HTML</button>
+            <button class="tool-link-btn" type="button" onclick="clearHTMLRunner()">🗑 Clear</button>
+            <button class="tool-link-btn runner-fullscreen-btn" id="htmlRunnerFullscreenBtn" type="button" onclick="toggleHTMLRunnerFullscreen()">⛶ Fullscreen</button>
+            <button class="tool-link-btn" id="htmlRunnerDownloadBtn" type="button" onclick="downloadHTMLRunner()">⬇ Download HTML</button>
+          </div>
+          <iframe id="htmlRunnerPreview" title="HTML Runner Preview" sandbox="allow-scripts allow-forms allow-modals"></iframe>
+        </div>
+      </div>
     </div>
 
     <!-- CHERRI -->
@@ -778,6 +824,7 @@ const ENTRIES = [
   { name:"Console Scripts",    url:"__console__",      cat:"tools",  icon:"💻", tag:"TOOL"   },
   { name:"Cherri Single File", url:"__cherri__",       cat:"tools",  icon:"🍒", tag:"TOOL"   },
   { name:"Music Player",       url:"__music__",        cat:"tools",  icon:"🎵", tag:"TOOL"   },
+  { name:"HTML Runner",        url:"__htmlrunner__",  cat:"tools",  icon:"💻", tag:"TOOL"   },
   // CHATROOMS
   { name:"💬 Chatrooms", url:"__chat__", cat:"chat", icon:"💬", tag:"LIVE" },
   // MOVIES
@@ -869,7 +916,7 @@ function makeItem(e) {
 }
 
 function hideAll() {
-  ['homeScreen','gameArea','moviesArea','bookmarkletsArea','consoleArea','cherriArea','musicArea','chatArea']
+  ['homeScreen','gameArea','moviesArea','bookmarkletsArea','consoleArea','cherriArea','musicArea','chatArea','htmlRunnerArea']
     .forEach(id => document.getElementById(id).classList.add('hidden'));
 }
 
@@ -883,6 +930,7 @@ function loadEntry(entry) {
     '__console__':     'consoleArea',
     '__cherri__':      'cherriArea',
     '__music__':       'musicArea',
+    '__htmlrunner__':  'htmlRunnerArea',
     '__chat__':        'chatArea',
   };
   if (map[entry.url]) {
@@ -1467,6 +1515,50 @@ document.getElementById('gameCount').textContent = ENTRIES.filter(e => e.cat !==
       // Keep the existing Digital Arcade games unchanged if Cherri's game list cannot be loaded.
     });
 })();
+
+function runHTMLRunner() {
+  const code = document.getElementById('htmlRunnerCode').value;
+  document.getElementById('htmlRunnerPreview').srcdoc = code;
+}
+function clearHTMLRunner() {
+  document.getElementById('htmlRunnerCode').value = '';
+  document.getElementById('htmlRunnerPreview').srcdoc = '';
+}
+
+function downloadHTMLRunner() {
+  const code = document.getElementById('htmlRunnerCode').value;
+  const blob = new Blob([code], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'my-html-runner.html';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+async function toggleHTMLRunnerFullscreen() {
+  const preview = document.getElementById('htmlRunnerPreview');
+  const button = document.getElementById('htmlRunnerFullscreenBtn');
+
+  try {
+    if (document.fullscreenElement === preview) {
+      await document.exitFullscreen();
+    } else {
+      await preview.requestFullscreen();
+    }
+  } catch (error) {
+    console.warn('HTML Runner fullscreen failed:', error);
+  }
+}
+
+document.addEventListener('fullscreenchange', () => {
+  const preview = document.getElementById('htmlRunnerPreview');
+  const button = document.getElementById('htmlRunnerFullscreenBtn');
+  if (!preview || !button) return;
+  button.textContent = document.fullscreenElement === preview ? '⛶ Exit Fullscreen' : '⛶ Fullscreen';
+});
 </script>
 </body>
 </html>
