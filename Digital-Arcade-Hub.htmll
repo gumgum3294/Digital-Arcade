@@ -529,7 +529,88 @@
     .admin-modal-error { color:#fca5a5; font-size:.68rem; margin-top:-6px; margin-bottom:10px; }
 
     .hidden { display:none !important; }
-  </style>
+  
+/* CHERRI-STYLE MUSIC PAGE */
+.cherri-music-app{position:absolute;inset:0;display:flex;background:#120701;color:#f7f0eb;font-family:Arial,sans-serif;overflow:hidden}
+.cherri-music-sidebar{width:315px;flex:0 0 315px;background:#180a03;border-right:1px solid #2d1609;padding:28px 12px 16px;display:flex;flex-direction:column;box-sizing:border-box}
+.cherri-music-brand{font-size:26px;font-weight:800;padding:4px 14px 28px}
+.cherri-music-nav{border:0;background:transparent;color:#b87535;text-align:left;padding:13px 16px;border-radius:15px;cursor:pointer;font-size:17px;font-weight:700;display:flex;align-items:center;gap:14px;margin:2px 0}
+.cherri-music-nav:hover,.cherri-music-nav.active{background:#4a2104;color:#fff}
+.cherri-music-side-label{color:#c07836;font-size:13px;font-weight:800;margin:28px 14px 13px;letter-spacing:.03em}
+.cherri-music-playlist{border:0;background:transparent;color:#b87535;text-align:left;padding:8px 16px;cursor:pointer;font-size:15px;border-radius:9px}
+.cherri-music-playlist:hover{background:#281106;color:#fff}
+.cherri-music-side-spacer{flex:1}
+.cherri-music-external{color:#c07836;text-decoration:none;padding:15px 16px;border-top:1px solid #2b1509}
+.cherri-music-main{flex:1;min-width:0;min-height:0;overflow:auto;background:#120701}
+.cherri-music-topbar{height:76px;display:flex;align-items:center;gap:9px;padding:0 24px;border-bottom:1px solid #241108;background:#160802;position:sticky;top:0;z-index:10}
+.cherri-music-arrows{display:flex;gap:4px}.cherri-music-arrows button{width:32px;height:36px;border:0;background:transparent;color:#d78a42;font-size:27px;cursor:pointer}
+.cherri-music-search-wrap{height:43px;flex:1;display:flex;align-items:center;gap:10px;background:#241006;border:1px solid #34190a;border-radius:14px;padding:0 14px}.cherri-music-search-wrap span{color:#c87a34}.cherri-music-search{width:100%;border:0;outline:0;background:transparent;color:#fff;font-size:15px}.cherri-music-search::placeholder{color:#8e5d32}
+.cherri-music-open{border:0;background:#ff7417;color:#fff;padding:12px 18px;border-radius:13px;font-weight:800;cursor:pointer}
+.cherri-music-content{padding:28px 30px 120px}.cherri-music-heading{font-size:22px;margin:0 0 34px}
+.cherri-music-section{margin:0 0 38px}.cherri-music-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}.cherri-music-section-head h2{font-size:18px;margin:0}.cherri-music-section-head button{border:0;background:transparent;color:#9d612c;cursor:pointer;font-size:24px}
+.cherri-music-cards{display:grid;grid-template-columns:repeat(5,minmax(140px,1fr));gap:17px}
+.cherri-music-card{min-width:0;border:0;background:transparent;color:#fff;text-align:left;padding:0;cursor:pointer;font-family:Arial,sans-serif}
+.cherri-music-art{width:100%;aspect-ratio:1;border-radius:13px;overflow:hidden;background:#241006;display:block;position:relative;box-shadow:0 5px 18px rgba(0,0,0,.25)}
+.cherri-music-art img{width:100%;height:100%;display:block;object-fit:cover}.cherri-music-art-fallback{width:100%;height:100%;display:grid;place-items:center;font-size:42px;color:#c87936;background:linear-gradient(145deg,#2b1003,#100603)}
+.cherri-music-card:hover .cherri-music-art{outline:2px solid #63300b;transform:translateY(-2px)}
+.cherri-music-card-title{display:block;font-size:16px;font-weight:800;margin-top:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cherri-music-card-meta{display:block;color:#bd7635;font-size:14px;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cherri-music-empty{color:#8e5d32;padding:15px 0}.cherri-music-status{color:#8e5d32;font-size:13px;margin-top:9px}
+.cherri-music-search-results{display:grid;grid-template-columns:repeat(5,minmax(140px,1fr));gap:18px}.cherri-music-search-results .cherri-music-card{display:block}
+.cherri-music-search-note{color:#b87535;font-size:14px;margin:0 0 20px}.cherri-music-pill{border:1px solid #63300b;background:#251006;color:#e5a166;border-radius:999px;padding:9px 14px;cursor:pointer}
+.cherri-music-player{position:sticky;bottom:0;z-index:20;margin:0 -30px -120px;padding:13px 22px;background:rgba(22,8,2,.98);border-top:1px solid #351a0b;display:flex;align-items:center;gap:15px;box-sizing:border-box;min-height:76px}
+.cherri-music-player-art{width:52px;height:52px;border-radius:7px;object-fit:cover;background:#2a1004}.cherri-music-player-info{min-width:170px;max-width:270px}.cherri-music-player-title{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cherri-music-player-artist{font-size:13px;color:#b87535;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cherri-music-audio{flex:1;min-width:180px;height:40px}.cherri-music-player-actions{display:flex;gap:7px}.cherri-music-player-actions a{color:#d1843b;text-decoration:none;border:1px solid #3c1d0b;border-radius:9px;padding:8px 10px;font-size:12px}
+.cherri-music-content.hidden{display:none}.cherri-music-loading{color:#a96a31;padding:20px 0}
+@media(max-width:1100px){.cherri-music-cards,.cherri-music-search-results{grid-template-columns:repeat(4,minmax(130px,1fr))}.cherri-music-sidebar{width:250px;flex-basis:250px}}
+@media(max-width:800px){.cherri-music-sidebar{width:190px;flex-basis:190px}.cherri-music-cards,.cherri-music-search-results{grid-template-columns:repeat(3,minmax(120px,1fr))}.cherri-music-content{padding:22px 18px 115px}.cherri-music-player{margin-left:-18px;margin-right:-18px}}
+@media(max-width:600px){.cherri-music-sidebar{display:none}.cherri-music-cards,.cherri-music-search-results{grid-template-columns:repeat(2,minmax(120px,1fr))}.cherri-music-topbar{padding:0 12px}.cherri-music-content{padding-left:14px;padding-right:14px}.cherri-music-player-info{min-width:0;max-width:130px}.cherri-music-player-actions{display:none}}
+
+.audio-com-music-page{padding:0;overflow:hidden;min-height:calc(100vh - 180px);background:#0d0d0d;border-radius:16px}
+.audio-com-header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 22px;background:rgba(20,20,20,.96);border-bottom:1px solid rgba(255,255,255,.09)}
+.audio-com-header h2{margin:0 0 5px;font-size:22px}.audio-com-header p{margin:0;color:#aaa;font-size:13px}.audio-com-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.audio-com-actions .tool-link-btn{border:0;cursor:pointer;text-decoration:none}
+.audio-com-frame-wrap{height:calc(100vh - 300px);min-height:650px;background:#111}.audio-com-frame{display:block;width:100%;height:100%;min-height:650px;border:0;background:#111}.audio-com-fallback{padding:10px 16px;background:#151515;color:#888;font-size:12px}.audio-com-fallback a{color:#ff7a18}
+@media(max-width:800px){.audio-com-header{align-items:flex-start;flex-direction:column}.audio-com-frame-wrap,.audio-com-frame{min-height:600px;height:calc(100vh - 340px)}}
+</style>
+
+<style id="cherri-movies-css">
+  .cherri-movies-app{height:calc(100% - 56px);overflow:auto;padding:0 12px 18px;background:#000;color:#e8e8e8;font-family:Arial,sans-serif;box-sizing:border-box}
+  .cherri-page-heading{padding:10px 0 28px 0}.cherri-page-heading .game-title{font-size:2rem}.cherri-page-heading .game-source{font-size:1rem;margin-top:6px}.cherri-movie-window{width:min(100%,1100px);margin:12px auto 0;border:1px solid #303030;border-radius:22px;background:#050505;box-shadow:0 12px 45px rgba(0,0,0,.35);padding:18px;box-sizing:border-box}
+  .cherri-row{display:flex;gap:10px;flex-wrap:wrap}.cherri-movie-window > .cherri-row:nth-child(2){margin-top:22px}
+  .cherri-input{width:100%;box-sizing:border-box;padding:13px 14px;border-radius:14px;border:1px solid #303030;background:#171717;color:#eee;outline:none;font:600 16px Arial,sans-serif}
+  .cherri-input:focus{border-color:#e72b8b;box-shadow:0 0 0 2px rgba(231,43,139,.12)}
+  .cherri-input::placeholder{color:#7e7e7e}
+  .cherri-movie-pill{color:#eee;background:#171717;border:1px solid #303030;border-radius:16px;cursor:pointer;transition:.15s;padding:12px 15px;text-align:left;font:700 16px Arial,sans-serif}
+  .cherri-movie-pill:hover{border-color:#666;transform:translateY(-1px)}
+  .cherri-movie-pill.active{border-color:#ff2c99;color:#fff;box-shadow:0 0 0 1px rgba(255,44,153,.15) inset}
+  .cherri-movie-results{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:14px}
+  .cherri-movie-card{overflow:hidden;text-decoration:none;color:inherit;border-radius:18px;border:1px solid #303030;background:linear-gradient(180deg,#171717,#0c0c0c);transition:transform .15s,border-color .15s;cursor:pointer;padding:0;text-align:left;min-width:0}
+  .cherri-movie-card:hover{transform:translateY(-3px);border-color:#ff2c99}
+  .cherri-movie-card-image{aspect-ratio:3/2;background:#202020;overflow:hidden}
+  .cherri-movie-card-image img{width:100%;height:100%;object-fit:cover;display:block}
+  .cherri-movie-card-copy{padding:12px;display:flex;flex-direction:column;gap:6px}
+  .cherri-movie-card-copy h3{margin:0;font-size:15px;line-height:1.35;color:#f1f1f1}
+  .cherri-muted{color:#888;font-size:13px;line-height:1.4}
+  .cherri-status{color:#888;font-size:14px;min-height:20px;margin-top:12px}
+  .cherri-pagination{align-items:center;justify-content:center;margin-top:8px}
+  .cherri-watch-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:100000;display:none;align-items:center;justify-content:center;padding:18px;box-sizing:border-box}
+  .cherri-watch-backdrop.open{display:flex}
+  .cherri-watch-window{width:min(1180px,96vw);height:min(90vh,900px);display:flex;flex-direction:column;gap:12px;border:1px solid #333;border-radius:22px;background:#050505;overflow:hidden;box-shadow:0 20px 70px rgba(0,0,0,.7)}
+  .cherri-watch-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-bottom:1px solid #292929}.cherri-watch-top-actions{display:flex;align-items:center;gap:8px}.cherri-watch-stage:fullscreen{width:100vw;height:100vh;margin:0;border:0;border-radius:0}.cherri-watch-stage:fullscreen iframe{width:100vw;height:100vh}
+  .cherri-watch-title{font-size:22px;font-weight:800;color:#fff}
+  .cherri-watch-meta{margin-top:4px;color:#888;font-size:13px}
+  .cherri-watch-controls{display:flex;gap:8px;flex-wrap:wrap;padding:0 18px}
+  .cherri-watch-controls select{background:#171717;color:#eee;border:1px solid #303030;border-radius:12px;padding:10px 12px;font:600 14px Arial,sans-serif;max-width:100%}
+  .cherri-watch-stage{flex:1;min-height:0;margin:0 18px;border:1px solid #303030;border-radius:16px;overflow:hidden;background:#000}
+  .cherri-watch-stage iframe{width:100%;height:100%;border:0;display:block;background:#000}
+  .cherri-watch-extra{padding:0 18px 18px;overflow:auto;color:#aaa}
+  .cherri-watch-extra h3{margin:0 0 7px;color:#fff;font-size:16px}
+  .cherri-watch-extra p{margin:0;line-height:1.5}
+  .cherri-episode-grid{display:flex;gap:7px;flex-wrap:wrap;padding:0 18px;max-height:110px;overflow:auto}
+  .cherri-episode-grid button{padding:8px 10px;border-radius:10px;background:#171717;color:#eee;border:1px solid #303030;cursor:pointer}
+  .cherri-episode-grid button.active{border-color:#ff2c99}
+  @media(max-width:900px){.cherri-movie-results{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media(max-width:650px){.cherri-movie-results{grid-template-columns:repeat(2,minmax(0,1fr))}.cherri-page-heading{padding:10px 0 28px 0}.cherri-page-heading .game-title{font-size:2rem}.cherri-page-heading .game-source{font-size:1rem;margin-top:6px}.cherri-movie-window{padding:12px}.cherri-watch-backdrop{padding:7px}.cherri-watch-window{width:100%;height:95vh;border-radius:16px}.cherri-watch-stage{margin:0 10px}.cherri-watch-controls,.cherri-watch-extra,.cherri-episode-grid{padding-left:10px;padding-right:10px}}
+</style>
+
 </head>
 <body>
 
@@ -628,17 +709,24 @@
 
     <!-- MOVIES -->
     <div class="movies-area hidden" id="moviesArea">
-      <div class="game-header">
-        <div>
-          <div class="game-title">🎬 Movies &amp; TV Shows</div>
-          <div class="game-source">Powered by <a href="http://streamex.sh" target="_blank">streamex.sh</a></div>
+      <div class="game-header"><div><div class="game-title">🎬 Movies &amp; TV Shows</div><div class="game-source">movies + TV</div></div></div>
+      <div id="cherriMoviesApp" class="cherri-movies-app">
+        <div class="cherri-movie-window">
+          <div class="cherri-row">
+            <input class="cherri-input" id="cherriMovieSearch" autocomplete="off" placeholder="what are we watching today?">
+          </div>
+          <div class="cherri-row">
+            <button class="cherri-movie-pill active" id="cherriMoviesTab" type="button">movies</button>
+            <button class="cherri-movie-pill" id="cherriShowsTab" type="button">tv and shows</button>
+          </div>
+          <div class="cherri-movie-results" id="cherriMovieResults"></div>
+          <div class="cherri-status" id="cherriMovieStatus">loading...</div>
+          <div class="cherri-row cherri-pagination">
+            <button class="cherri-movie-pill" id="cherriPrevPage" type="button">previous</button>
+            <div class="cherri-muted" id="cherriPageLabel">page 1</div>
+            <button class="cherri-movie-pill" id="cherriNextPage" type="button">next</button>
+          </div>
         </div>
-        <div class="game-controls">
-          <button class="ctrl-btn" onclick="openStreamexBlank()">⤢ FULLSCREEN</button>
-        </div>
-      </div>
-      <div class="movies-iframe-wrapper">
-        <iframe id="streamexIframe" src="about:blank" allowfullscreen allow="autoplay; fullscreen; gamepad; microphone; camera"></iframe>
       </div>
     </div>
 
@@ -768,15 +856,22 @@
 
     <!-- MUSIC PLAYER -->
     <div class="tool-area hidden" id="musicArea">
-      <div class="tool-page">
-        <h2>🎵 Music Player</h2>
-        <div class="tool-section">
-          <h3>Music Player</h3>
-          <p>Click the button below to open the music player in a new tab.</p>
+      <div class="tool-page audio-com-music-page">
+        <div class="audio-com-header">
+          <div>
+            <h2>🎵 Audio.com Music</h2>
+            <p>Audio.com is embedded directly into the music section.</p>
+          </div>
+          <div class="audio-com-actions">
+            <a class="tool-link-btn" href="https://audio.com/" target="_blank" rel="noopener">Open Audio.com ↗</a>
+            <button class="tool-link-btn" type="button" onclick="document.getElementById('audioComFrame').requestFullscreen?.()">⛶ Fullscreen</button>
+          </div>
         </div>
-        <div class="tool-card">
-          <div class="tool-card-title">🎵 Open Music Player</div>
-          <a class="tool-link-btn" href="https://sites.google.com/view/music-player-18323/untitled-page" target="_blank">🎵 Open Music Player ↗</a>
+        <div class="audio-com-frame-wrap">
+          <iframe id="audioComFrame" class="audio-com-frame" src="https://audio.com/" title="Audio.com" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen loading="eager" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <div class="audio-com-fallback">
+          If Audio.com prevents being displayed inside an iframe in your browser, use <a href="https://audio.com/" target="_blank" rel="noopener">Open Audio.com</a> above.
         </div>
       </div>
     </div>
@@ -936,7 +1031,7 @@ function loadEntry(entry) {
   if (map[entry.url]) {
     document.getElementById(map[entry.url]).classList.remove('hidden');
     if (entry.url === '__movies__') {
-      loadStreamexInline();
+      initCherriMovies();
     }
     if (entry.url === '__chat__') {
       initChat();
@@ -1019,29 +1114,196 @@ function openFullscreen() {
   w.document.write(`<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>${currentEntry.name || 'Game'}</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}iframe{width:100%;height:100%;border:0}</style></head><body><iframe src="${gameUrl}" allowfullscreen allow="autoplay; fullscreen; gamepad; microphone; camera"></iframe></body></html>`);
   w.document.close();
 }
-function loadStreamexInline() {
-  const ifr = document.getElementById('streamexIframe');
-  // Load streamex into an about:blank-origin document inside the iframe itself,
-  // same trick as opening a fresh tab — avoids referrer/frame checks blocking it.
-  ifr.src = 'about:blank';
-  ifr.onload = () => {
-    try {
-      const doc = ifr.contentDocument || ifr.contentWindow.document;
-      doc.open();
-      doc.write(`<!DOCTYPE html><html><head><style>html,body{margin:0;padding:0;height:100%;width:100%;overflow:hidden;background:#000;}iframe{width:100%;height:100%;border:none;}</style></head><body><iframe src="http://streamex.sh" allowfullscreen allow="autoplay; fullscreen; gamepad; microphone; camera"></iframe></body></html>`);
-      doc.close();
-    } catch (e) {
-      // Cross-origin write blocked by the browser — fall back to a direct src load
-      ifr.src = 'http://streamex.sh';
-    }
-    ifr.onload = null;
-  };
-}
+const CHERRI_WATCH_API_KEY = "1070730380f5fee0d87cf0382670b255";
+const CHERRI_TMDB_KEY = "fb7bb23f03b6994dafc674c074d01761";
+const CHERRI_WATCH_SOURCES = [
+  {id:"vidking",name:"Vidking",urls:{movie:"https://www.vidking.net/embed/movie/{id}",tv:"https://www.vidking.net/embed/tv/{id}/{season}/{episode}?color=e50914&autoPlay=true&nextEpisode=true&episodeSelector=true"}},
+  {id:"embedmaster",name:"EmbedMaster",urls:{movie:"https://embedmaster.link/movie/{id}",tv:"https://embedmaster.link/tv/{id}/{season}/{episode}"}},
+  {id:"vidlink",name:"VidLink",urls:{movie:"https://vidlink.pro/movie/{id}",tv:"https://vidlink.pro/tv/{id}/{season}/{episode}"}},
+  {id:"vidsrcxyz",name:"VidSrcXyz",urls:{movie:"https://vidsrc.xyz/embed/movie/{id}",tv:"https://vidsrc.xyz/embed/tv/{id}/{season}/{episode}"}},
+  {id:"vidsrcrip",name:"VidSrcRIP",urls:{movie:"https://vidsrc.rip/embed/movie/{id}",tv:"https://vidsrc.rip/embed/tv/{id}/{season}/{episode}"}},
+  {id:"videasy",name:"VidEasy",urls:{movie:"https://player.videasy.net/movie/{id}?color=8834ec",tv:"https://player.videasy.net/tv/{id}/{season}/{episode}?color=8834ec"}}
+];
+let cherriMoviesInitialized=false;
+let cherriMovieTab='movies';
+let cherriMoviePage=1;
+let cherriMovieQuery='';
+let cherriWatchState=null;
 
-function openStreamexBlank() {
-  const w = window.open('about:blank', '_blank');
-  w.document.write(`<!DOCTYPE html><html><head><title>Movies & TV</title><style>html,body{margin:0;padding:0;height:100%;width:100%;overflow:hidden;background:#000;}iframe{width:100%;height:100%;border:none;}</style></head><body><iframe src="http://streamex.sh" allowfullscreen allow="autoplay; fullscreen; gamepad; microphone; camera"></iframe></body></html>`);
+function initCherriMovies(){
+  if(cherriMoviesInitialized){ refreshCherriMovies(); return; }
+  cherriMoviesInitialized=true;
+  const search=document.getElementById('cherriMovieSearch');
+  const moviesTab=document.getElementById('cherriMoviesTab');
+  const showsTab=document.getElementById('cherriShowsTab');
+  const prev=document.getElementById('cherriPrevPage');
+  const next=document.getElementById('cherriNextPage');
+  search.addEventListener('input',()=>{cherriMovieQuery=search.value;cherriMoviePage=1;refreshCherriMovies();});
+  moviesTab.addEventListener('click',()=>{cherriMovieTab='movies';cherriMoviePage=1;cherriMovieQuery='';search.value='';updateCherriMovieTabs();refreshCherriMovies();});
+  showsTab.addEventListener('click',()=>{cherriMovieTab='shows';cherriMoviePage=1;cherriMovieQuery='';search.value='';updateCherriMovieTabs();refreshCherriMovies();});
+  prev.addEventListener('click',()=>{if(cherriMoviePage>1){cherriMoviePage--;refreshCherriMovies();}});
+  next.addEventListener('click',()=>{cherriMoviePage++;refreshCherriMovies();});
+  updateCherriMovieTabs();
+  refreshCherriMovies();
 }
+function updateCherriMovieTabs(){
+  document.getElementById('cherriMoviesTab').classList.toggle('active',cherriMovieTab==='movies');
+  document.getElementById('cherriShowsTab').classList.toggle('active',cherriMovieTab==='shows');
+}
+function cherriEsc(s){const d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML;}
+async function refreshCherriMovies(){
+  const results=document.getElementById('cherriMovieResults');
+  const status=document.getElementById('cherriMovieStatus');
+  const pageLabel=document.getElementById('cherriPageLabel');
+  if(!results||!status)return;
+  pageLabel.textContent='page '+cherriMoviePage;
+  status.textContent='loading...';
+  results.innerHTML='';
+  try{
+    const endpoint=cherriMovieQuery.trim()
+      ? ('search/'+(cherriMovieTab==='movies'?'movie':'tv')+'?api_key='+CHERRI_TMDB_KEY+'&query='+encodeURIComponent(cherriMovieQuery)+'&page='+cherriMoviePage)
+      : ((cherriMovieTab==='movies'?'movie/popular':'tv/popular')+'?api_key='+CHERRI_TMDB_KEY+'&page='+cherriMoviePage);
+    const response=await fetch('https://api.tmdb.org/3/'+endpoint,{headers:{Accept:'application/json'}});
+    if(!response.ok) throw new Error('HTTP '+response.status);
+    const data=await response.json();
+    renderCherriMovies(data.results||[]);
+  }catch(error){
+    status.textContent='failed to load movies';
+    results.innerHTML='<div class="cherri-muted" style="padding:16px">Could not load the Cherri movie catalog. Try again.</div>';
+    console.error('Cherri movies:',error);
+  }
+}
+function renderCherriMovies(items){
+  const results=document.getElementById('cherriMovieResults');
+  const status=document.getElementById('cherriMovieStatus');
+  results.innerHTML='';
+  if(!items.length){status.textContent='nothing found';return;}
+  const type=cherriMovieTab==='movies'?'movie':'tv';
+  items.forEach(item=>{
+    const title=item.title||item.name||'untitled';
+    const yearValue=item.release_date||item.first_air_date;
+    const year=yearValue?String(new Date(yearValue).getFullYear()):'';
+    const card=document.createElement('button');
+    card.type='button'; card.className='cherri-movie-card';
+    const imageWrap=document.createElement('div'); imageWrap.className='cherri-movie-card-image';
+    const image=document.createElement('img'); image.alt=title; image.loading='lazy';
+    image.src=item.poster_path?'https://image.tmdb.org/t/p/w500'+item.poster_path:'';
+    image.onerror=()=>{imageWrap.innerHTML='<div style="height:100%;display:grid;place-items:center;padding:15px;text-align:center;color:#aaa">'+cherriEsc(title)+'</div>';};
+    imageWrap.appendChild(image);
+    const copy=document.createElement('div'); copy.className='cherri-movie-card-copy';
+    copy.innerHTML='<h3>'+cherriEsc(title)+'</h3><div class="cherri-muted">'+cherriEsc(year)+'</div>';
+    card.append(imageWrap,copy);
+    card.addEventListener('click',()=>openCherriWatch(item.id,type));
+    results.appendChild(card);
+  });
+  status.textContent=items.length+' results';
+}
+function ensureCherriWatchModal(){
+  let modal=document.getElementById('cherriWatchModal');
+  if(modal)return modal;
+  modal=document.createElement('div'); modal.id='cherriWatchModal'; modal.className='cherri-watch-backdrop';
+  modal.innerHTML='<div class="cherri-watch-window" role="dialog" aria-modal="true">'+
+    '<div class="cherri-watch-top"><div><div id="cherriWatchTitle" class="cherri-watch-title">loading...</div><div id="cherriWatchMeta" class="cherri-watch-meta"></div></div><div class="cherri-watch-top-actions"><button id="cherriWatchFullscreen" class="cherri-movie-pill" type="button">⛶ fullscreen</button><button id="cherriWatchClose" class="cherri-movie-pill" type="button">close</button></div></div>'+
+    '<div id="cherriSeasonRow" class="cherri-watch-controls" style="display:none"></div>'+
+    '<div id="cherriEpisodeGrid" class="cherri-episode-grid" style="display:none"></div>'+
+    '<div class="cherri-watch-controls"><select id="cherriSourceSelect"></select></div>'+
+    '<div class="cherri-watch-stage"><iframe id="cherriWatchFrame" allowfullscreen allow="autoplay; fullscreen; picture-in-picture"></iframe></div>'+
+    '<div class="cherri-watch-extra"><h3>overview</h3><p id="cherriWatchOverview"></p></div></div>';
+  document.body.appendChild(modal);
+  document.getElementById('cherriWatchClose').addEventListener('click',closeCherriWatch);
+  document.getElementById('cherriWatchFullscreen').addEventListener('click',toggleCherriWatchFullscreen);
+  modal.addEventListener('click',e=>{if(e.target===modal)closeCherriWatch();});
+  document.addEventListener('fullscreenchange',()=>{
+    const btn=document.getElementById('cherriWatchFullscreen');
+    if(btn) btn.textContent=document.fullscreenElement ? '⛶ exit fullscreen' : '⛶ fullscreen';
+  });
+  return modal;
+}
+async function openCherriWatch(contentId,contentType){
+  const modal=ensureCherriWatchModal();
+  modal.classList.add('open');
+  const titleEl=document.getElementById('cherriWatchTitle');
+  const metaEl=document.getElementById('cherriWatchMeta');
+  const overviewEl=document.getElementById('cherriWatchOverview');
+  const sourceSelect=document.getElementById('cherriSourceSelect');
+  const seasonRow=document.getElementById('cherriSeasonRow');
+  const episodeGrid=document.getElementById('cherriEpisodeGrid');
+  const frame=document.getElementById('cherriWatchFrame');
+  titleEl.textContent='loading...'; metaEl.textContent=''; overviewEl.textContent=''; frame.src='about:blank';
+  sourceSelect.innerHTML='';
+  CHERRI_WATCH_SOURCES.forEach(source=>{const o=document.createElement('option');o.value=source.id;o.textContent=source.name;sourceSelect.appendChild(o);});
+  cherriWatchState={contentId:String(contentId),contentType,selectedSource:CHERRI_WATCH_SOURCES[0].id,selectedSeason:1,selectedEpisode:1,seasonData:null};
+  sourceSelect.value=cherriWatchState.selectedSource;
+  sourceSelect.onchange=()=>{cherriWatchState.selectedSource=sourceSelect.value;updateCherriWatchVideo();};
+  seasonRow.innerHTML=''; episodeGrid.innerHTML=''; seasonRow.style.display='none'; episodeGrid.style.display='none';
+  try{
+    const response=await fetch('https://api.themoviedb.org/3/'+contentType+'/'+contentId+'?api_key='+CHERRI_TMDB_KEY,{headers:{Accept:'application/json'}});
+    if(!response.ok) throw new Error('HTTP '+response.status);
+    const content=await response.json();
+    titleEl.textContent=content.title||content.name||'watch';
+    const yearValue=content.release_date||content.first_air_date;
+    metaEl.textContent=yearValue?String(new Date(yearValue).getFullYear()):'';
+    overviewEl.textContent=content.overview||'';
+    if(contentType==='tv'){
+      seasonRow.style.display='flex';
+      for(let i=1;i<=(content.number_of_seasons||0);i++){
+        const b=document.createElement('button');b.type='button';b.className='cherri-movie-pill'+(i===1?' active':'');b.textContent='season '+i;
+        b.addEventListener('click',async()=>{cherriWatchState.selectedSeason=i;Array.from(seasonRow.children).forEach((x,idx)=>x.classList.toggle('active',idx===i-1));await fetchCherriSeason();});
+        seasonRow.appendChild(b);
+      }
+      await fetchCherriSeason();
+    }else updateCherriWatchVideo();
+  }catch(error){titleEl.textContent='failed to load';overviewEl.textContent='Could not load this title.';console.error('Cherri watch:',error);}
+}
+function updateCherriWatchVideo(){
+  if(!cherriWatchState)return;
+  const source=CHERRI_WATCH_SOURCES.find(x=>x.id===cherriWatchState.selectedSource)||CHERRI_WATCH_SOURCES[0];
+  let url=source.urls[cherriWatchState.contentType];
+  url=url.replace('{id}',cherriWatchState.contentId).replace('{season}',cherriWatchState.selectedSeason).replace('{episode}',cherriWatchState.selectedEpisode);
+  document.getElementById('cherriWatchFrame').src=url;
+}
+async function fetchCherriSeason(){
+  if(!cherriWatchState)return;
+  const response=await fetch('https://api.themoviedb.org/3/tv/'+cherriWatchState.contentId+'/season/'+cherriWatchState.selectedSeason+'?api_key='+CHERRI_TMDB_KEY,{headers:{Accept:'application/json'}});
+  if(!response.ok)throw new Error('HTTP '+response.status);
+  cherriWatchState.seasonData=await response.json();
+  cherriWatchState.selectedEpisode=1;
+  const grid=document.getElementById('cherriEpisodeGrid'); grid.innerHTML=''; grid.style.display='flex';
+  (cherriWatchState.seasonData.episodes||[]).forEach(ep=>{const b=document.createElement('button');b.type='button';b.className=ep.episode_number===1?'active':'';b.textContent='ep '+ep.episode_number+' - '+(ep.name||'');b.addEventListener('click',()=>{cherriWatchState.selectedEpisode=ep.episode_number;Array.from(grid.children).forEach(x=>x.classList.remove('active'));b.classList.add('active');updateCherriWatchVideo();});grid.appendChild(b);});
+  updateCherriWatchVideo();
+}
+async function toggleCherriWatchFullscreen(){
+  const stage=document.querySelector('#cherriWatchModal .cherri-watch-stage');
+  if(!stage)return;
+  try{
+    if(document.fullscreenElement){
+      await document.exitFullscreen();
+    }else if(stage.requestFullscreen){
+      await stage.requestFullscreen();
+    }else{
+      const frame=document.getElementById('cherriWatchFrame');
+      if(frame && frame.requestFullscreen) await frame.requestFullscreen();
+    }
+  }catch(error){
+    console.error('Cherri fullscreen:',error);
+  }
+}
+function closeCherriWatch(){
+  if(document.fullscreenElement){
+    document.exitFullscreen().catch(()=>{});
+  }
+  const modal=document.getElementById('cherriWatchModal');
+  const frame=document.getElementById('cherriWatchFrame');
+  if(frame)frame.src='about:blank';
+  if(modal)modal.classList.remove('open');
+  cherriWatchState=null;
+}
+function cherriSearch(){
+  const input=document.getElementById('cherriMovieSearch');
+  if(input){cherriMovieQuery=input.value;cherriMoviePage=1;refreshCherriMovies();}
+}
+function playCherri(type,id){openCherriWatch(id,type)}
+function closeCherriPlayer(){closeCherriWatch()}
 
 function copyCode(btn) {
   const code = btn.previousElementSibling.textContent;
@@ -1559,6 +1821,88 @@ document.addEventListener('fullscreenchange', () => {
   if (!preview || !button) return;
   button.textContent = document.fullscreenElement === preview ? '⛶ Exit Fullscreen' : '⛶ Fullscreen';
 });
+
+
+/* CHERRI-STYLE MUSIC ENGINE — real catalog search + artwork + previews */
+const CHERRI_MUSIC_API = 'https://itunes.apple.com/search';
+const CHERRI_MUSIC_LOOKUP = 'https://itunes.apple.com/lookup';
+const CHERRI_MUSIC_RECENT_KEY = 'digitalArcadeCherriMusicRecentV2';
+const CHERRI_MUSIC_LIBRARY_KEY = 'digitalArcadeCherriMusicLibraryV2';
+let cherriMusicLastResults = [];
+
+function cherriMusicEsc(v){return String(v??'').replace(/[&<>\"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','\\"':'&quot;',"'":'&#39;'}[m]));}
+function cherriMusicCover(track){return track.artworkUrl100 ? track.artworkUrl100.replace('100x100','600x600') : (track.artworkUrl60||'');}
+function cherriMusicNormalize(track){return {id:track.trackId,title:track.trackName||'Unknown song',artist:track.artistName||'Unknown artist',album:track.collectionName||'',art:cherriMusicCover(track),preview:track.previewUrl||'',url:track.trackViewUrl||'',genre:track.primaryGenreName||''};}
+function cherriMusicGet(key,fallback=[]){try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))||fallback}catch(e){return fallback}}
+function cherriMusicSet(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch(e){}}
+function cherriMusicCard(track){
+  const t=cherriMusicNormalize(track);
+  return `<button class="cherri-music-card" type="button" data-track-id="${cherriMusicEsc(t.id)}"><span class="cherri-music-art">${t.art?`<img loading="lazy" src="${cherriMusicEsc(t.art)}" alt="">`:`<span class="cherri-music-art-fallback">♪</span>`}</span><span class="cherri-music-card-title">${cherriMusicEsc(t.title)}</span><span class="cherri-music-card-meta">${cherriMusicEsc(t.artist)}</span></button>`;
+}
+function cherriMusicBind(container,tracks){
+  if(!container)return;
+  const map=new Map(tracks.map(t=>[String(t.trackId),t]));
+  container.querySelectorAll('[data-track-id]').forEach(btn=>btn.onclick=()=>cherriMusicPlay(map.get(btn.dataset.trackId)));
+}
+async function cherriMusicFetch(q,limit=25){
+  const u=CHERRI_MUSIC_API+'?term='+encodeURIComponent(q)+'&media=music&entity=song&limit='+limit+'&country=US';
+  const r=await fetch(u); if(!r.ok) throw new Error('Music search failed');
+  const d=await r.json(); return (d.results||[]).filter(x=>x.trackId&&x.trackName);
+}
+async function cherriMusicLoadBrowse(){
+  const top=document.getElementById('cherriTopHitsCards'), pop=document.getElementById('cherriPopCards');
+  const topQueries=['Playboi Carti','Megan Thee Stallion','DaBaby','Cardi B','Drake','SZA'];
+  const popQueries=['Taylor Swift','The Weeknd','Billie Eilish','Ariana Grande','Lady Gaga','Sabrina Carpenter'];
+  try{
+    const [topSets,popSets]=await Promise.all([Promise.all(topQueries.map(q=>cherriMusicFetch(q,3))),Promise.all(popQueries.map(q=>cherriMusicFetch(q,3))) ]);
+    const topTracks=topSets.flat().filter((x,i,a)=>a.findIndex(y=>y.trackId===x.trackId)===i).slice(0,10);
+    const popTracks=popSets.flat().filter((x,i,a)=>a.findIndex(y=>y.trackId===x.trackId)===i).slice(0,10);
+    top.innerHTML=topTracks.map(cherriMusicCard).join('')||'<div class="cherri-music-empty">No music found.</div>';
+    pop.innerHTML=popTracks.map(cherriMusicCard).join('')||'<div class="cherri-music-empty">No music found.</div>';
+    cherriMusicBind(top,topTracks); cherriMusicBind(pop,popTracks);
+  }catch(e){
+    top.innerHTML='<div class="cherri-music-empty">Music catalog could not load. Use Search to try again.</div>';
+    pop.innerHTML='<div class="cherri-music-empty">Music catalog could not load. Use Search to try again.</div>';
+  }
+}
+function cherriMusicPlay(raw){
+  if(!raw)return;
+  const t=cherriMusicNormalize(raw), audio=document.getElementById('cherriMusicAudio');
+  document.getElementById('cherriMusicPlayerTitle').textContent=t.title;
+  document.getElementById('cherriMusicPlayerArtist').textContent=t.artist;
+  const art=document.getElementById('cherriMusicPlayerArt'); if(art){art.src=t.art||'';art.style.visibility=t.art?'visible':'hidden';}
+  const sc=document.getElementById('cherriMusicSoundCloud'); if(sc)sc.href='https://soundcloud.com/search?q='+encodeURIComponent(t.title+' '+t.artist);
+  if(audio){audio.src=t.preview||''; if(t.preview)audio.play().catch(()=>{});}
+  const recent=cherriMusicGet(CHERRI_MUSIC_RECENT_KEY,[]).filter(x=>x.trackId!==t.id); recent.unshift(t); cherriMusicSet(CHERRI_MUSIC_RECENT_KEY,recent.slice(0,10));
+  const lib=cherriMusicGet(CHERRI_MUSIC_LIBRARY_KEY,[]).filter(x=>x.id!==t.id); lib.unshift(t); cherriMusicSet(CHERRI_MUSIC_LIBRARY_KEY,lib.slice(0,50));
+  cherriMusicRenderRecent(); cherriMusicRenderLibrary();
+}
+function cherriMusicRenderRecent(){
+  const wrap=document.getElementById('cherriRecentlyCards'),empty=document.getElementById('cherriRecentlyEmpty'); if(!wrap)return;
+  const tracks=cherriMusicGet(CHERRI_MUSIC_RECENT_KEY,[]); wrap.innerHTML=tracks.map(cherriMusicCard).join(''); if(empty)empty.style.display=tracks.length?'none':'block'; cherriMusicBind(wrap,tracks);
+}
+function cherriMusicRenderLibrary(){
+  const wrap=document.getElementById('cherriLibraryCards'),empty=document.getElementById('cherriLibraryEmpty'); if(!wrap)return;
+  const tracks=cherriMusicGet(CHERRI_MUSIC_LIBRARY_KEY,[]); wrap.innerHTML=tracks.map(cherriMusicCard).join(''); if(empty)empty.style.display=tracks.length?'none':'block'; cherriMusicBind(wrap,tracks);
+}
+function cherriMusicClearRecent(){cherriMusicSet(CHERRI_MUSIC_RECENT_KEY,[]);cherriMusicRenderRecent();}
+async function cherriMusicSearch(){
+  const input=document.getElementById('cherriMusicSearch'),q=(input?.value||'').trim(); if(!q){cherriMusicFocusSearch();return;}
+  cherriMusicShow('search',document.querySelectorAll('.cherri-music-nav')[1]);
+  const wrap=document.getElementById('cherriMusicSearchResults'),status=document.getElementById('cherriMusicSearchStatus');
+  wrap.innerHTML='<div class="cherri-music-loading">Searching the music catalog…</div>';status.textContent='';
+  try{const tracks=await cherriMusicFetch(q,50);cherriMusicLastResults=tracks;wrap.innerHTML=tracks.length?tracks.map(cherriMusicCard).join(''):'<div class="cherri-music-empty">No songs found.</div>';status.textContent=tracks.length?tracks.length+' results':'Try another search';cherriMusicBind(wrap,tracks);}catch(e){wrap.innerHTML='<div class="cherri-music-empty">Search failed. Check your connection and try again.</div>';status.textContent='';}
+}
+function cherriMusicSearchFor(q){const input=document.getElementById('cherriMusicSearch');if(input)input.value=q;cherriMusicSearch();}
+function cherriMusicFocusSearch(){const input=document.getElementById('cherriMusicSearch');cherriMusicShow('search',document.querySelectorAll('.cherri-music-nav')[1]);if(input){setTimeout(()=>input.focus(),40);}}
+function cherriMusicShow(which,button){
+  ['browse','search','library'].forEach(x=>{const el=document.getElementById(x==='browse'?'cherriMusicBrowse':x==='search'?'cherriMusicSearchSection':'cherriMusicLibrarySection');if(el)el.classList.toggle('hidden',x!==which);});
+  document.querySelectorAll('.cherri-music-nav').forEach(b=>b.classList.remove('active')); if(button)button.classList.add('active');
+  if(which==='browse')cherriMusicRenderRecent(); if(which==='library')cherriMusicRenderLibrary();
+}
+function cherriMusicInit(){cherriMusicRenderRecent();cherriMusicRenderLibrary();cherriMusicLoadBrowse();}
+
+cherriMusicInit();
 </script>
 </body>
 </html>
