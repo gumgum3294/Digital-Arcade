@@ -564,6 +564,21 @@
 @media(max-width:800px){.cherri-music-sidebar{width:190px;flex-basis:190px}.cherri-music-cards,.cherri-music-search-results{grid-template-columns:repeat(3,minmax(120px,1fr))}.cherri-music-content{padding:22px 18px 115px}.cherri-music-player{margin-left:-18px;margin-right:-18px}}
 @media(max-width:600px){.cherri-music-sidebar{display:none}.cherri-music-cards,.cherri-music-search-results{grid-template-columns:repeat(2,minmax(120px,1fr))}.cherri-music-topbar{padding:0 12px}.cherri-music-content{padding-left:14px;padding-right:14px}.cherri-music-player-info{min-width:0;max-width:130px}.cherri-music-player-actions{display:none}}
 
+
+/* LIVE SPORTS */
+.sports-page{height:100%;overflow:auto;padding:22px 24px 35px;background:radial-gradient(circle at 50% 0%,rgba(124,58,237,.10),transparent 40%),#050509;color:var(--text)}
+.sports-header{width:min(100%,1150px);margin:0 auto 16px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.sports-actions{display:flex;gap:8px;flex-wrap:wrap}.sports-tabs{width:min(100%,1150px);margin:0 auto 16px;display:flex;gap:8px;flex-wrap:wrap}
+.sports-tab{border:1px solid var(--border);background:rgba(124,58,237,.08);color:var(--muted);border-radius:10px;padding:10px 15px;cursor:pointer;font-family:'Share Tech Mono',monospace;font-weight:700;transition:.18s}
+.sports-tab:hover,.sports-tab.active{color:#fff;border-color:var(--accent2);background:rgba(124,58,237,.22);box-shadow:0 0 15px rgba(124,58,237,.15)}
+.sports-status{width:min(100%,1150px);margin:0 auto 14px;color:var(--muted);font-size:.78rem}.sports-grid{width:min(100%,1150px);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:13px}
+.sports-card{border:1px solid var(--border);border-radius:14px;background:rgba(10,10,20,.88);padding:15px;box-shadow:0 8px 28px rgba(0,0,0,.25)}
+.sports-card.live{border-color:rgba(168,85,247,.65);box-shadow:0 0 22px rgba(124,58,237,.12)}
+.sports-card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px;color:var(--muted);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em}.sports-live{color:#c084fc;font-weight:900}.sports-status-pill{padding:3px 7px;border:1px solid var(--border);border-radius:999px}
+.sports-team{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:10px;padding:9px 0}.sports-team+.sports-team{border-top:1px solid rgba(124,58,237,.12)}
+.sports-team img{width:30px;height:30px;object-fit:contain}.sports-team-name{font-size:.88rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.sports-score{font-family:'Orbitron',sans-serif;font-size:1.15rem;font-weight:900;color:#fff}.sports-empty{grid-column:1/-1;border:1px dashed var(--border);border-radius:14px;padding:45px 20px;text-align:center;color:var(--muted)}.sports-note{width:min(100%,1150px);margin:16px auto 0;color:#666680;font-size:.68rem;line-height:1.5}
+@media(max-width:650px){.sports-page{padding:16px}.sports-grid{grid-template-columns:1fr}.sports-team-name{font-size:.82rem}}
+
 .audio-com-music-page{padding:0;overflow:hidden;min-height:calc(100vh - 180px);background:#0d0d0d;border-radius:16px}
 .audio-com-header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 22px;background:rgba(20,20,20,.96);border-bottom:1px solid rgba(255,255,255,.09)}
 .audio-com-header h2{margin:0 0 5px;font-size:22px}.audio-com-header p{margin:0;color:#aaa;font-size:13px}.audio-com-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.audio-com-actions .tool-link-btn{border:0;cursor:pointer;text-decoration:none}
@@ -576,14 +591,14 @@
   .cherri-page-heading{padding:10px 0 28px 0}.cherri-page-heading .game-title{font-size:2rem}.cherri-page-heading .game-source{font-size:1rem;margin-top:6px}.cherri-movie-window{width:min(100%,1100px);margin:12px auto 0;border:1px solid #303030;border-radius:22px;background:#050505;box-shadow:0 12px 45px rgba(0,0,0,.35);padding:18px;box-sizing:border-box}
   .cherri-row{display:flex;gap:10px;flex-wrap:wrap}.cherri-movie-window > .cherri-row:nth-child(2){margin-top:22px}
   .cherri-input{width:100%;box-sizing:border-box;padding:13px 14px;border-radius:14px;border:1px solid #303030;background:#171717;color:#eee;outline:none;font:600 16px Arial,sans-serif}
-  .cherri-input:focus{border-color:#e72b8b;box-shadow:0 0 0 2px rgba(231,43,139,.12)}
+  .cherri-input:focus{border-color:#a855f7;box-shadow:0 0 0 2px rgba(168,85,247,.12)}
   .cherri-input::placeholder{color:#7e7e7e}
   .cherri-movie-pill{color:#eee;background:#171717;border:1px solid #303030;border-radius:16px;cursor:pointer;transition:.15s;padding:12px 15px;text-align:left;font:700 16px Arial,sans-serif}
   .cherri-movie-pill:hover{border-color:#666;transform:translateY(-1px)}
-  .cherri-movie-pill.active{border-color:#ff2c99;color:#fff;box-shadow:0 0 0 1px rgba(255,44,153,.15) inset}
+  .cherri-movie-pill.active{border-color:#a855f7;color:#fff;box-shadow:0 0 0 1px rgba(168,85,247,.15) inset}
   .cherri-movie-results{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:14px}
   .cherri-movie-card{overflow:hidden;text-decoration:none;color:inherit;border-radius:18px;border:1px solid #303030;background:linear-gradient(180deg,#171717,#0c0c0c);transition:transform .15s,border-color .15s;cursor:pointer;padding:0;text-align:left;min-width:0}
-  .cherri-movie-card:hover{transform:translateY(-3px);border-color:#ff2c99}
+  .cherri-movie-card:hover{transform:translateY(-3px);border-color:#a855f7}
   .cherri-movie-card-image{aspect-ratio:3/2;background:#202020;overflow:hidden}
   .cherri-movie-card-image img{width:100%;height:100%;object-fit:cover;display:block}
   .cherri-movie-card-copy{padding:12px;display:flex;flex-direction:column;gap:6px}
@@ -606,7 +621,7 @@
   .cherri-watch-extra p{margin:0;line-height:1.5}
   .cherri-episode-grid{display:flex;gap:7px;flex-wrap:wrap;padding:0 18px;max-height:110px;overflow:auto}
   .cherri-episode-grid button{padding:8px 10px;border-radius:10px;background:#171717;color:#eee;border:1px solid #303030;cursor:pointer}
-  .cherri-episode-grid button.active{border-color:#ff2c99}
+  .cherri-episode-grid button.active{border-color:#a855f7}
   @media(max-width:900px){.cherri-movie-results{grid-template-columns:repeat(3,minmax(0,1fr))}}
   @media(max-width:650px){.cherri-movie-results{grid-template-columns:repeat(2,minmax(0,1fr))}.cherri-page-heading{padding:10px 0 28px 0}.cherri-page-heading .game-title{font-size:2rem}.cherri-page-heading .game-source{font-size:1rem;margin-top:6px}.cherri-movie-window{padding:12px}.cherri-watch-backdrop{padding:7px}.cherri-watch-window{width:100%;height:95vh;border-radius:16px}.cherri-watch-stage{margin:0 10px}.cherri-watch-controls,.cherri-watch-extra,.cherri-episode-grid{padding-left:10px;padding-right:10px}}
 </style>
@@ -649,6 +664,7 @@
       <button class="cat-tab" data-cat="tools">TOOLS</button>
       <button class="cat-tab" data-cat="movies">MOVIES</button>
       <button class="cat-tab" data-cat="chat">CHATROOMS</button>
+      <button class="cat-tab" data-cat="sports">SPORTS</button>
       <button class="cat-tab" data-cat="action">ACTION</button>
       <button class="cat-tab" data-cat="horror">HORROR</button>
       <button class="cat-tab" data-cat="idle">IDLE</button>
@@ -667,7 +683,7 @@
       <div class="home-logo">DIGITAL<br>ARCADE</div>
       <div class="home-sub">
         Game site dedicated to letting you play games — pick a title from the sidebar to start playing.<br><br>
-        Use the search bar or category tabs to find what you need.
+        Use the search bar or category tabs to find what you need.<br><br>Live Sports brings scores for soccer, baseball, football, and volleyball.
       </div>
       <div class="home-stats">
         <div class="stat-box"><div class="stat-num" id="gameCount">0</div><div class="stat-label">Games</div></div>
@@ -876,6 +892,31 @@
       </div>
     </div>
 
+    <!-- LIVE SPORTS -->
+    <div class="tool-area hidden" id="sportsArea">
+      <div class="sports-page">
+        <div class="sports-header">
+          <div>
+            <div class="game-title">🏆 Live Sports</div>
+            <div class="game-source">Live scores • automatically refreshed</div>
+          </div>
+          <div class="sports-actions">
+            <button class="ctrl-btn" id="sportsRefreshBtn" type="button">↻ REFRESH</button>
+            <button class="ctrl-btn" id="sportsTodayBtn" type="button">TODAY</button>
+          </div>
+        </div>
+        <div class="sports-tabs" id="sportsTabs">
+          <button class="sports-tab active" data-sport="soccer" type="button">⚽ Soccer</button>
+          <button class="sports-tab" data-sport="baseball" type="button">⚾ Baseball</button>
+          <button class="sports-tab" data-sport="football" type="button">🏈 Football</button>
+          <button class="sports-tab" data-sport="volleyball" type="button">🏐 Volleyball</button>
+        </div>
+        <div class="sports-status" id="sportsStatus">Loading live scores…</div>
+        <div class="sports-grid" id="sportsGrid"></div>
+        <div class="sports-note">Scores are provided by ESPN's public scoreboard feeds. If a league is not in season, its page will simply show no scheduled games.</div>
+      </div>
+    </div>
+
     <!-- CHATROOMS -->
     <div class="chat-area hidden" id="chatArea">
       <div class="game-header">
@@ -920,6 +961,7 @@ const ENTRIES = [
   { name:"Cherri Single File", url:"__cherri__",       cat:"tools",  icon:"🍒", tag:"TOOL"   },
   { name:"Music Player",       url:"__music__",        cat:"tools",  icon:"🎵", tag:"TOOL"   },
   { name:"HTML Runner",        url:"__htmlrunner__",  cat:"tools",  icon:"💻", tag:"TOOL"   },
+  { name:"Live Sports",         url:"__sports__",      cat:"sports", icon:"🏆", tag:"LIVE"   },
   // CHATROOMS
   { name:"💬 Chatrooms", url:"__chat__", cat:"chat", icon:"💬", tag:"LIVE" },
   // MOVIES
@@ -967,6 +1009,7 @@ document.getElementById('sidebarToggle').addEventListener('click', () => {
 });
 
 // RENDER
+
 function renderList() {
   const list = document.getElementById('gameList');
   list.innerHTML = '';
@@ -1011,7 +1054,7 @@ function makeItem(e) {
 }
 
 function hideAll() {
-  ['homeScreen','gameArea','moviesArea','bookmarkletsArea','consoleArea','cherriArea','musicArea','chatArea','htmlRunnerArea']
+  ['homeScreen','gameArea','moviesArea','bookmarkletsArea','consoleArea','cherriArea','musicArea','chatArea','htmlRunnerArea','sportsArea']
     .forEach(id => document.getElementById(id).classList.add('hidden'));
 }
 
@@ -1027,6 +1070,7 @@ function loadEntry(entry) {
     '__music__':       'musicArea',
     '__htmlrunner__':  'htmlRunnerArea',
     '__chat__':        'chatArea',
+    '__sports__':      'sportsArea',
   };
   if (map[entry.url]) {
     document.getElementById(map[entry.url]).classList.remove('hidden');
@@ -1035,6 +1079,9 @@ function loadEntry(entry) {
     }
     if (entry.url === '__chat__') {
       initChat();
+    }
+    if (entry.url === '__sports__') {
+      initLiveSports();
     }
     return;
   }
@@ -1114,6 +1161,57 @@ function openFullscreen() {
   w.document.write(`<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>${currentEntry.name || 'Game'}</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}iframe{width:100%;height:100%;border:0}</style></head><body><iframe src="${gameUrl}" allowfullscreen allow="autoplay; fullscreen; gamepad; microphone; camera"></iframe></body></html>`);
   w.document.close();
 }
+/* LIVE SPORTS */
+const SPORTS_FEEDS = {
+  soccer: [
+    ['Premier League','soccer/eng.1'],
+    ['La Liga','soccer/esp.1'],
+    ['MLS','soccer/usa.1'],
+    ['Champions League','soccer/uefa.champions']
+  ],
+  baseball: [['MLB','baseball/mlb']],
+  football: [['NFL','football/nfl'],['NCAA Football','football/college-football']],
+  volleyball: [['NCAA Women','volleyball/women.ncaa']]
+};
+let liveSportsInitialized=false, liveSportsSport='soccer', liveSportsDate=new Date();
+function sportsDateString(d){return d.toISOString().slice(0,10).replace(/-/g,'');}
+function sportsEsc(v){const d=document.createElement('div');d.textContent=String(v??'');return d.innerHTML;}
+function sportsSetTabs(){document.querySelectorAll('.sports-tab').forEach(b=>b.classList.toggle('active',b.dataset.sport===liveSportsSport));}
+function sportsStatusText(ev){const c=ev?.competitions?.[0];const st=c?.status?.type;return st?.shortDetail||st?.detail||st?.description||'Scheduled';}
+function sportsIsLive(ev){return ev?.competitions?.[0]?.status?.type?.state==='in';}
+function sportsTeams(ev){const c=ev?.competitions?.[0];return (c?.competitors||[]).sort((a,b)=>(a.homeAway==='away'?0:1)-(b.homeAway==='away'?0:1));}
+function sportsCard(ev,league){
+  const c=ev?.competitions?.[0]||{}, teams=sportsTeams(ev), live=sportsIsLive(ev), status=sportsStatusText(ev);
+  const teamHtml=teams.map(t=>`<div class="sports-team"><img src="${sportsEsc(t.team?.logo||'')}" alt="" onerror="this.style.visibility='hidden'"><div class="sports-team-name">${sportsEsc(t.team?.displayName||t.team?.name||'Team')}</div><div class="sports-score">${sportsEsc(t.score??'—')}</div></div>`).join('');
+  return `<div class="sports-card ${live?'live':''}"><div class="sports-card-head"><span>${sportsEsc(league)}</span><span class="sports-status-pill ${live?'sports-live':''}">${live?'🔴 LIVE':sportsEsc(status)}</span></div>${teamHtml||'<div class="sports-empty">Teams unavailable</div>'}</div>`;
+}
+async function sportsFetchLeague(league,path){
+  const url='https://site.api.espn.com/apis/site/v2/sports/'+path+'/scoreboard?dates='+sportsDateString(liveSportsDate);
+  const r=await fetch(url,{headers:{Accept:'application/json'},cache:'no-store'}); if(!r.ok)throw new Error('HTTP '+r.status); const data=await r.json();
+  return (data.events||[]).map(ev=>({ev,league}));
+}
+async function refreshLiveSports(){
+  const grid=document.getElementById('sportsGrid'), status=document.getElementById('sportsStatus'); if(!grid||!status)return;
+  sportsSetTabs(); grid.innerHTML='<div class="sports-empty">Loading scores…</div>'; status.textContent='Updating '+liveSportsSport+'…';
+  try{
+    const feeds=SPORTS_FEEDS[liveSportsSport]||[]; const settled=await Promise.allSettled(feeds.map(x=>sportsFetchLeague(x[0],x[1])));
+    const games=[]; let failures=0; settled.forEach(r=>r.status==='fulfilled'?games.push(...r.value):failures++);
+    games.sort((a,b)=>(sportsIsLive(b.ev)?1:0)-(sportsIsLive(a.ev)?1:0));
+    grid.innerHTML=games.length?games.map(x=>sportsCard(x.ev,x.league)).join(''):'<div class="sports-empty">No games found for today.</div>';
+    status.textContent=(games.length?games.length+' game'+(games.length===1?'':'s'):'No games')+' • '+(liveSportsDate.toDateString()===new Date().toDateString()?'today':liveSportsDate.toLocaleDateString())+(failures?' • some leagues could not be loaded':'');
+  }catch(e){grid.innerHTML='<div class="sports-empty">Could not load live scores. Check your connection and try again.</div>';status.textContent='Score feed unavailable';console.error('Live sports:',e);}
+}
+function initLiveSports(){
+  if(!liveSportsInitialized){
+    liveSportsInitialized=true;
+    document.querySelectorAll('.sports-tab').forEach(btn=>btn.addEventListener('click',()=>{liveSportsSport=btn.dataset.sport;liveSportsDate=new Date();refreshLiveSports();}));
+    document.getElementById('sportsRefreshBtn')?.addEventListener('click',refreshLiveSports);
+    document.getElementById('sportsTodayBtn')?.addEventListener('click',()=>{liveSportsDate=new Date();refreshLiveSports();});
+    setInterval(()=>{if(!document.getElementById('sportsArea')?.classList.contains('hidden'))refreshLiveSports();},60000);
+  }
+  refreshLiveSports();
+}
+
 const CHERRI_WATCH_API_KEY = "1070730380f5fee0d87cf0382670b255";
 const CHERRI_TMDB_KEY = "fb7bb23f03b6994dafc674c074d01761";
 const CHERRI_WATCH_SOURCES = [
