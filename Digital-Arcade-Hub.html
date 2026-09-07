@@ -394,7 +394,8 @@
     .chat-name-row input {
       flex:1; background:rgba(255,255,255,0.06);
       border:1px solid var(--border); border-radius:8px;
-      padding:8px 14px; color:var(--text);
+      padding:8px 14px; color:#eee8ff;
+      caret-color:var(--accent2);
       font-family:'Share Tech Mono',monospace; font-size:.76rem;
       outline:none; transition:border-color .2s;
     }
@@ -432,8 +433,8 @@
       border-color:var(--accent2);
     }
     .chat-new-room-input {
-      background:rgba(255,255,255,0.06); border:1px solid var(--border);
-      border-radius:7px; padding:6px 10px; color:var(--text);
+      background:rgba(7,6,24,.72); border:1px solid var(--border);
+      border-radius:7px; padding:6px 10px; color:#eee8ff; caret-color:var(--accent2);
       font-family:'Share Tech Mono',monospace; font-size:.7rem;
       outline:none; width:120px; flex-shrink:0;
     }
@@ -455,7 +456,8 @@
     .chat-send-row input {
       flex:1; background:rgba(255,255,255,0.06);
       border:1px solid var(--border); border-radius:8px;
-      padding:9px 14px; color:var(--text);
+      padding:9px 14px; color:#eee8ff;
+      caret-color:var(--accent2);
       font-family:'Share Tech Mono',monospace; font-size:.78rem;
       outline:none; transition:border-color .2s;
     }
@@ -468,6 +470,8 @@
     }
     .chat-send-row button:hover { box-shadow:0 0 14px var(--glow); }
     .chat-hint { font-size:.62rem; color:var(--muted); text-align:center; flex-shrink:0; }
+    .chat-admin-hint { display:none; font-size:.62rem; color:#c4b5fd; text-align:center; margin-top:2px; }
+    body.admin-mode .chat-admin-hint { display:block; }
 
     .chat-room-tab-wrap { position:relative; display:inline-flex; align-items:center; }
     .chat-room-delete-btn {
@@ -584,6 +588,26 @@
 .audio-com-header h2{margin:0 0 5px;font-size:22px}.audio-com-header p{margin:0;color:#aaa;font-size:13px}.audio-com-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.audio-com-actions .tool-link-btn{border:0;cursor:pointer;text-decoration:none}
 .audio-com-frame-wrap{height:calc(100vh - 300px);min-height:650px;background:#111}.audio-com-frame{display:block;width:100%;height:100%;min-height:650px;border:0;background:#111}.audio-com-fallback{padding:10px 16px;background:#151515;color:#888;font-size:12px}.audio-com-fallback a{color:#ff7a18}
 @media(max-width:800px){.audio-com-header{align-items:flex-start;flex-direction:column}.audio-com-frame-wrap,.audio-com-frame{min-height:600px;height:calc(100vh - 340px)}}
+
+/* ── CHATROOM PASSWORD LOCKS ───────────────── */
+.chat-lock-create{display:flex;align-items:center;gap:8px;padding:0 10px;height:38px;border:1px solid rgba(120,90,255,.35);border-radius:8px;background:rgba(10,8,35,.7);color:#bdb4ff;font-family:inherit;font-size:12px;white-space:nowrap}
+.chat-lock-create input[type="checkbox"]{accent-color:#7057ff;width:15px;height:15px}
+.chat-lock-password{display:none;min-width:150px}
+.chat-lock-password.show{display:block}
+.chat-lock-icon{font-size:12px;margin-left:3px;opacity:.9}
+.chat-lock-modal{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(7px);display:flex;align-items:center;justify-content:center;z-index:99999}
+.chat-lock-modal.hidden{display:none}
+.chat-lock-card{width:min(390px,calc(100vw - 32px));background:linear-gradient(180deg,rgba(18,14,49,.98),rgba(8,7,25,.98));border:1px solid rgba(130,100,255,.65);box-shadow:0 0 45px rgba(88,54,255,.25);border-radius:14px;padding:22px}
+.chat-lock-card h3{margin:0 0 7px;color:#c4b7ff;font-size:17px}
+.chat-lock-card p{margin:0 0 16px;color:#9b95bb;font-size:12px}
+.chat-lock-card input{width:100%;box-sizing:border-box;margin-bottom:12px;background:rgba(7,6,24,.92);border:1px solid rgba(130,100,255,.55);border-radius:8px;padding:10px 12px;color:#eee8ff;caret-color:#a855f7;font-family:'Share Tech Mono',monospace;font-size:14px;outline:none;box-shadow:inset 0 0 14px rgba(0,0,0,.22);transition:border-color .2s,box-shadow .2s}.chat-lock-card input:focus{border-color:#a855f7;box-shadow:0 0 0 2px rgba(168,85,247,.12),inset 0 0 14px rgba(0,0,0,.25)}.chat-lock-card input::placeholder{color:#77728f;opacity:1}
+.chat-lock-actions{display:flex;justify-content:flex-end;gap:8px}
+.chat-lock-actions button{appearance:none;-webkit-appearance:none;border:1px solid rgba(130,100,255,.55);background:rgba(30,24,65,.95);color:#ddd6ff;border-radius:8px;padding:9px 15px;font-family:'Share Tech Mono',monospace;font-size:12px;cursor:pointer;outline:none;transition:.15s}
+.chat-lock-actions button:hover{background:rgba(88,70,170,.55);border-color:#a855f7;color:#fff;box-shadow:0 0 14px rgba(168,85,247,.18)}
+.chat-lock-actions button:active{transform:translateY(1px)}
+.chat-lock-actions button:disabled{opacity:.55;cursor:wait}
+.chat-room-tab.locked::after{content:' 🔒';font-size:10px;opacity:.85}
+
 </style>
 
 <style id="cherri-movies-css">
@@ -624,6 +648,33 @@
   .cherri-episode-grid button.active{border-color:#a855f7}
   @media(max-width:900px){.cherri-movie-results{grid-template-columns:repeat(3,minmax(0,1fr))}}
   @media(max-width:650px){.cherri-movie-results{grid-template-columns:repeat(2,minmax(0,1fr))}.cherri-page-heading{padding:10px 0 28px 0}.cherri-page-heading .game-title{font-size:2rem}.cherri-page-heading .game-source{font-size:1rem;margin-top:6px}.cherri-movie-window{padding:12px}.cherri-watch-backdrop{padding:7px}.cherri-watch-window{width:100%;height:95vh;border-radius:16px}.cherri-watch-stage{margin:0 10px}.cherri-watch-controls,.cherri-watch-extra,.cherri-episode-grid{padding-left:10px;padding-right:10px}}
+
+    /* SETTINGS */
+    .settings-area { flex:1; overflow:auto; padding:28px 34px 60px; }
+    .settings-page { max-width:1100px; margin:0 auto; }
+    .settings-title { font-family:'Orbitron',sans-serif; color:var(--accent2); font-size:1.5rem; margin-bottom:5px; }
+    .settings-subtitle { color:var(--muted); font-size:.72rem; margin-bottom:24px; }
+    .settings-section { background:var(--surface2); border:1px solid var(--border); border-radius:14px; padding:22px; margin-bottom:18px; }
+    .settings-section h3 { color:var(--accent2); font-size:.9rem; margin-bottom:15px; letter-spacing:.06em; }
+    .theme-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+    .theme-card { min-height:92px; padding:14px; border-radius:12px; background:rgba(0,0,0,.18); border:1px solid var(--border); color:var(--text); cursor:pointer; text-align:left; transition:.18s; }
+    .theme-card:hover { transform:translateY(-2px); border-color:var(--accent2); }
+    .theme-card.active { border-color:var(--accent2); box-shadow:0 0 0 1px var(--accent2),0 0 18px var(--glow); }
+    .theme-swatch { width:34px; height:34px; border-radius:9px; margin-bottom:9px; border:1px solid rgba(255,255,255,.12); }
+    .theme-name { font-size:.75rem; font-weight:700; }
+    .settings-row { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:13px 0; border-bottom:1px solid rgba(255,255,255,.06); }
+    .settings-row:last-child { border-bottom:0; }
+    .settings-label { font-size:.78rem; color:var(--text); }
+    .settings-help { color:var(--muted); font-size:.63rem; margin-top:4px; max-width:560px; line-height:1.45; }
+    .settings-input, .settings-select { min-width:300px; background:rgba(0,0,0,.25); color:var(--text); border:1px solid var(--border); border-radius:9px; padding:10px 12px; outline:none; font:inherit; }
+    .settings-input:focus,.settings-select:focus { border-color:var(--accent2); }
+    .settings-color { width:54px; height:40px; padding:3px; border-radius:9px; border:1px solid var(--border); background:transparent; cursor:pointer; }
+    .settings-buttons { display:flex; gap:9px; flex-wrap:wrap; }
+    .settings-btn { background:rgba(124,58,237,.18); color:var(--text); border:1px solid var(--border); border-radius:9px; padding:9px 14px; cursor:pointer; font:inherit; }
+    .settings-btn:hover { background:var(--accent); color:#fff; border-color:var(--accent2); }
+    .settings-btn.danger { border-color:rgba(239,68,68,.5); }
+    @media(max-width:850px){.theme-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.settings-row{align-items:flex-start;flex-direction:column}.settings-input,.settings-select{min-width:0;width:100%}}
+
 </style>
 
 </head>
@@ -651,6 +702,7 @@
       <div class="cloak-option" data-cloak="reset">↺ Reset to Digital Arcade</div>
     </div>
   </div>
+  <button class="ctrl-btn" id="settingsToggle" type="button" onclick="openSettings()" title="Settings" style="font-size:.68rem;padding:5px 12px;">⚙ SETTINGS</button>
   <button class="sidebar-toggle" id="sidebarToggle" title="Hide sidebar">☰</button>
 </header>
 
@@ -917,6 +969,94 @@
       </div>
     </div>
 
+
+    <!-- SETTINGS -->
+    <div class="tool-area hidden" id="settingsArea">
+      <div class="settings-area">
+        <div class="settings-page">
+          <div class="settings-title">⚙ Settings</div>
+          <div class="settings-subtitle">Customize the Digital Arcade look, background, mouse, and panic controls.</div>
+
+          <div class="settings-section">
+            <h3>APPEARANCE</h3>
+            <div class="theme-grid" id="themeGrid"></div>
+          </div>
+
+          <div class="settings-section">
+            <h3>BACKGROUND</h3>
+            <div class="settings-row">
+              <div><div class="settings-label">Background color</div><div class="settings-help">Change the color behind the hub. Reset restores the original Digital Arcade background.</div></div>
+              <input class="settings-color" id="bgColorPicker" type="color" value="#050509" />
+            </div>
+            <div class="settings-row">
+              <div><div class="settings-label">Background image</div><div class="settings-help">Paste an image URL or upload an image. Your original background remains the default.</div></div>
+              <div class="settings-buttons">
+                <input class="settings-input" id="bgImageUrl" placeholder="https://example.com/background.jpg" />
+                <input id="bgImageFile" type="file" accept="image/*" hidden />
+                <button class="settings-btn" type="button" onclick="document.getElementById('bgImageFile').click()">Upload image</button>
+                <button class="settings-btn" type="button" onclick="applyBackgroundUrl()">Apply image</button>
+                <button class="settings-btn" type="button" onclick="resetBackground()">Reset background</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3>FONT</h3>
+            <div class="settings-row">
+              <div><div class="settings-label">Site font</div><div class="settings-help">Choose a bundled font or enter a Google Fonts family name.</div></div>
+              <select class="settings-select" id="fontSelect" onchange="applyFont(this.value)">
+                <option value="'Share Tech Mono', monospace">Share Tech Mono</option>
+                <option value="Arial, sans-serif">Arial</option>
+                <option value="Inter, sans-serif">Inter</option>
+                <option value="Roboto, sans-serif">Roboto</option>
+                <option value="Poppins, sans-serif">Poppins</option>
+                <option value="'Space Grotesk', sans-serif">Space Grotesk</option>
+                <option value="'JetBrains Mono', monospace">JetBrains Mono</option>
+                <option value="'DM Sans', sans-serif">DM Sans</option>
+                <option value="'IBM Plex Sans', sans-serif">IBM Plex Sans</option>
+                <option value="custom">Custom Google font name…</option>
+              </select>
+            </div>
+            <div class="settings-row" id="customFontRow" style="display:none">
+              <div><div class="settings-label">Custom font</div></div>
+              <input class="settings-input" id="customFontInput" placeholder="Font family name" />
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3>MOUSE</h3>
+            <div class="settings-row">
+              <div><div class="settings-label">Mouse cursor</div><div class="settings-help">Change the cursor used across Digital Arcade.</div></div>
+              <select class="settings-select" id="cursorSelect" onchange="applyCursor(this.value)">
+                <option value="default">Default</option><option value="pointer">Pointer</option><option value="crosshair">Crosshair</option><option value="cell">Cell</option><option value="wait">Wait</option><option value="help">Help</option><option value="grab">Grab</option><option value="none">None</option>
+              </select>
+            </div>
+            <div class="settings-row">
+              <div><div class="settings-label">Custom cursor URL</div><div class="settings-help">Optional .cur/.png/.svg cursor URL. Leave blank to use the selected cursor.</div></div>
+              <div class="settings-buttons"><input class="settings-input" id="cursorUrl" placeholder="https://example.com/cursor.cur" /><button class="settings-btn" type="button" onclick="applyCustomCursor()">Apply cursor</button></div>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3>PANIC & ABOUT:BLANK</h3>
+            <div class="settings-row">
+              <div><div class="settings-label">Panic key</div><div class="settings-help">Press this key anywhere in the hub to send the current tab to your panic URL.</div></div>
+              <input class="settings-input" id="panicKeyInput" value="`" maxlength="1" />
+            </div>
+            <div class="settings-row">
+              <div><div class="settings-label">Panic redirect URL</div></div>
+              <input class="settings-input" id="panicUrlInput" value="https://google.com" />
+            </div>
+            <div class="settings-row">
+              <div><div class="settings-label">Open in about:blank</div><div class="settings-help">Opens Digital Arcade in a blank tab and redirects the current tab to your panic URL.</div></div>
+              <button class="settings-btn" type="button" onclick="openSettingsAboutBlank()">Open in about:blank</button>
+            </div>
+            <div class="settings-buttons"><button class="settings-btn" type="button" onclick="savePanicSettings()">Save panic settings</button><button class="settings-btn danger" type="button" onclick="resetArcadeSettings()">Reset all settings</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- CHATROOMS -->
     <div class="chat-area hidden" id="chatArea">
       <div class="game-header">
@@ -938,6 +1078,10 @@
       <div class="chat-room-row">
         <div class="chat-room-tabs" id="chatRoomTabs"></div>
         <input type="text" id="chatNewRoomInput" class="chat-new-room-input" placeholder="new room" maxlength="24" />
+        <label class="chat-lock-create" title="Require a password to enter this room">
+          <input type="checkbox" id="chatNewRoomLock"> 🔒 Lock
+        </label>
+        <input type="password" id="chatNewRoomPassword" class="chat-new-room-input chat-lock-password" placeholder="room password" maxlength="64" autocomplete="new-password" />
         <button onclick="createChatRoom()">+ Room</button>
       </div>
 
@@ -948,6 +1092,19 @@
         <button onclick="sendChatMessage()">Send</button>
       </div>
       <div class="chat-hint">Messages are public to everyone visiting this site in this room.</div>
+      <div class="chat-admin-hint">🔓 Admin access: room passwords bypassed • message & room deletion enabled</div>
+    </div>
+
+    <div class="chat-lock-modal hidden" id="chatLockModal" aria-hidden="true">
+      <div class="chat-lock-card" role="dialog" aria-modal="true" aria-labelledby="chatLockTitle">
+        <h3 id="chatLockTitle">🔒 Locked room</h3>
+        <p id="chatLockDescription">Enter the password to join this room.</p>
+        <input type="password" id="chatUnlockPassword" placeholder="Room password" maxlength="64" autocomplete="current-password" />
+        <div class="chat-lock-actions">
+          <button type="button" id="chatLockCancelBtn">Cancel</button>
+          <button type="button" id="chatLockUnlockBtn">Unlock</button>
+        </div>
+      </div>
     </div>
 
   </main>
@@ -1054,7 +1211,7 @@ function makeItem(e) {
 }
 
 function hideAll() {
-  ['homeScreen','gameArea','moviesArea','bookmarkletsArea','consoleArea','cherriArea','musicArea','chatArea','htmlRunnerArea','sportsArea']
+  ['homeScreen','gameArea','moviesArea','bookmarkletsArea','consoleArea','cherriArea','musicArea','chatArea','htmlRunnerArea','sportsArea','settingsArea']
     .forEach(id => document.getElementById(id).classList.add('hidden'));
 }
 
@@ -1508,6 +1665,41 @@ document.getElementById('applyCustomCloak').addEventListener('click', () => {
   cloakMenu.classList.add('hidden');
 });
 
+
+// ── SETTINGS ─────────────────────────────────
+const DA_THEMES = {
+  Cherri:{a:'#ff6488',a2:'#ff8da7',g:'rgba(255,100,136,.5)',t:'#fff1f5',m:'#c99aa8',b:'rgba(255,100,136,.28)',s:'rgba(35,10,18,.84)',sw:'#ff6488'},
+  Midnight:{a:'#45a7ef',a2:'#6ab9f2',g:'rgba(69,167,239,.5)',t:'#eaf6ff',m:'#8ca9bc',b:'rgba(69,167,239,.28)',s:'rgba(5,13,23,.84)',sw:'#45a7ef'},
+  Darker:{a:'#ed55dc',a2:'#f27be4',g:'rgba(237,85,220,.5)',t:'#fff0fc',m:'#b993b2',b:'rgba(237,85,220,.25)',s:'rgba(13,5,14,.88)',sw:'#ed55dc'},
+  Forest:{a:'#4fd18c',a2:'#70e5a8',g:'rgba(79,209,140,.45)',t:'#effff6',m:'#8bb4a0',b:'rgba(79,209,140,.25)',s:'rgba(4,17,10,.86)',sw:'#4fd18c'},
+  Sunset:{a:'#ff9a58',a2:'#ffb071',g:'rgba(255,154,88,.45)',t:'#fff5ed',m:'#c3a08b',b:'rgba(255,154,88,.25)',s:'rgba(22,10,4,.85)',sw:'#ff9a58'},
+  Nord:{a:'#7db6ca',a2:'#9bcbd8',g:'rgba(125,182,202,.4)',t:'#edf7fa',m:'#91aab2',b:'rgba(125,182,202,.25)',s:'rgba(9,17,21,.86)',sw:'#7db6ca'},
+  Mono:{a:'#aaa',a2:'#eee',g:'rgba(255,255,255,.25)',t:'#eee',m:'#999',b:'rgba(255,255,255,.2)',s:'rgba(15,15,15,.88)',sw:'#ddd'},
+  Light:{a:'#c23ba8',a2:'#e05ac6',g:'rgba(194,59,168,.35)',t:'#21131e',m:'#73566b',b:'rgba(194,59,168,.25)',s:'rgba(255,247,252,.88)',sw:'#c23ba8'},
+  Abyss:{a:'#5549ed',a2:'#7067f4',g:'rgba(85,73,237,.5)',t:'#eff0ff',m:'#999bd0',b:'rgba(85,73,237,.28)',s:'rgba(6,5,23,.88)',sw:'#5549ed'},
+  Matcha:{a:'#65df9b',a2:'#8beab4',g:'rgba(101,223,155,.45)',t:'#effff5',m:'#8fb7a1',b:'rgba(101,223,155,.25)',s:'rgba(5,18,11,.86)',sw:'#65df9b'},
+  Ember:{a:'#ff7417',a2:'#ff9a50',g:'rgba(255,116,23,.5)',t:'#fff3e8',m:'#b87535',b:'rgba(255,116,23,.28)',s:'rgba(25,9,2,.86)',sw:'#ff7417'},
+  Glacier:{a:'#8de5f0',a2:'#b2eff6',g:'rgba(141,229,240,.45)',t:'#effcff',m:'#88adb4',b:'rgba(141,229,240,.25)',s:'rgba(4,17,20,.86)',sw:'#8de5f0'},
+  Void:{a:'#7b3eea',a2:'#9d63f0',g:'rgba(123,62,234,.55)',t:'#f4edff',m:'#9b8ab7',b:'rgba(123,62,234,.3)',s:'rgba(9,3,20,.9)',sw:'#7b3eea'},
+  Peach:{a:'#f79aa8',a2:'#ffb2bd',g:'rgba(247,154,168,.4)',t:'#fff2f4',m:'#ba8f95',b:'rgba(247,154,168,.25)',s:'rgba(25,9,12,.86)',sw:'#f79aa8'},
+  Synthwave:{a:'#d95df2',a2:'#f47df6',g:'rgba(217,93,242,.55)',t:'#fff0ff',m:'#b38ab8',b:'rgba(217,93,242,.3)',s:'rgba(18,3,25,.88)',sw:'#d95df2'},
+  Custom:{a:'#ff7a18',a2:'#ffb15d',g:'rgba(255,122,24,.45)',t:'#fff2e7',m:'#b9814f',b:'rgba(255,122,24,.25)',s:'rgba(24,8,2,.86)',sw:'#ff7a18'}
+};
+let daSettings = JSON.parse(localStorage.getItem('daSettings') || '{}');
+function saveDA(){ localStorage.setItem('daSettings',JSON.stringify(daSettings)); }
+function applyTheme(name){ const t=DA_THEMES[name]||DA_THEMES.Ember; const r=document.documentElement.style; r.setProperty('--accent',t.a);r.setProperty('--accent2',t.a2);r.setProperty('--glow',t.g);r.setProperty('--text',t.t);r.setProperty('--muted',t.m);r.setProperty('--border',t.b);r.setProperty('--surface',t.s);r.setProperty('--surface2',t.s); daSettings.theme=name; saveDA(); document.querySelectorAll('.theme-card').forEach(x=>x.classList.toggle('active',x.dataset.theme===name)); }
+function renderThemes(){ const g=document.getElementById('themeGrid'); if(!g)return; g.innerHTML=Object.entries(DA_THEMES).map(([n,t])=>`<button type="button" class="theme-card" data-theme="${n}" onclick="applyTheme('${n}')"><div class="theme-swatch" style="background:${t.sw}"></div><div class="theme-name">${n}</div></button>`).join(''); }
+function applyBackgroundUrl(){ const u=document.getElementById('bgImageUrl').value.trim(); if(!u)return; document.body.style.backgroundImage=`url("${u.replace(/"/g,'%22')}")`; document.body.style.backgroundColor=document.getElementById('bgColorPicker').value; daSettings.bgImage=u; daSettings.bgColor=document.getElementById('bgColorPicker').value; saveDA(); }
+function resetBackground(){ document.body.style.background=''; document.getElementById('bgImageUrl').value=''; document.getElementById('bgColorPicker').value='#050509'; delete daSettings.bgImage; delete daSettings.bgColor; saveDA(); }
+function applyFont(v){ if(v==='custom'){document.getElementById('customFontRow').style.display='flex';return;} document.body.style.fontFamily=v; daSettings.font=v; saveDA(); }
+function applyCursor(v){ document.body.style.cursor=v; daSettings.cursor=v; saveDA(); }
+function applyCustomCursor(){ const u=document.getElementById('cursorUrl').value.trim(); if(!u)return; document.body.style.cursor=`url("${u.replace(/"/g,'%22')}"), auto`; daSettings.cursorUrl=u; saveDA(); }
+function savePanicSettings(){ const k=(document.getElementById('panicKeyInput').value||'`').slice(0,1); const u=document.getElementById('panicUrlInput').value.trim()||'https://google.com'; daSettings.panicKey=k;daSettings.panicUrl=u;saveDA(); alert('Panic settings saved.'); }
+function openSettings(){ hideAll(); document.getElementById('settingsArea').classList.remove('hidden'); renderThemes(); document.getElementById('panicKeyInput').value=daSettings.panicKey||'`'; document.getElementById('panicUrlInput').value=daSettings.panicUrl||'https://google.com'; document.getElementById('bgImageUrl').value=daSettings.bgImage||''; document.getElementById('bgColorPicker').value=daSettings.bgColor||'#050509'; document.getElementById('fontSelect').value=daSettings.font||"'Share Tech Mono', monospace"; document.getElementById('cursorSelect').value=daSettings.cursor||'default'; document.getElementById('cursorUrl').value=daSettings.cursorUrl||''; if(daSettings.theme)applyTheme(daSettings.theme); else document.querySelectorAll('.theme-card').forEach(x=>x.classList.toggle('active',x.dataset.theme==='Abyss')); }
+function openSettingsAboutBlank(){ const w=window.open('about:blank','_blank'); if(!w)return; w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Digital Arcade</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}iframe{width:100%;height:100%;border:0}</style></head><body><iframe src="'+location.href.replace(/"/g,'&quot;')+'"></iframe></body></html>');w.document.close(); const u=document.getElementById('panicUrlInput').value.trim()||'https://google.com'; setTimeout(()=>{try{location.href=u}catch(e){}},80); }
+function resetArcadeSettings(){ localStorage.removeItem('daSettings'); daSettings={}; document.body.style.background='';document.body.style.fontFamily='';document.body.style.cursor=''; const r=document.documentElement.style; Object.entries({'--accent':'#7c3aed','--accent2':'#a855f7','--glow':'rgba(124,58,237,0.6)','--text':'#e2e2f0','--muted':'#8888aa','--border':'rgba(124,58,237,0.35)','--surface':'rgba(8,8,18,0.84)','--surface2':'rgba(18,18,32,0.88)'}).forEach(([k,v])=>r.setProperty(k,v));openSettings(); }
+(function initDASettings(){ renderThemes(); if(daSettings.theme)applyTheme(daSettings.theme); if(daSettings.bgImage)document.body.style.backgroundImage=`url("${daSettings.bgImage.replace(/"/g,'%22')}")`; if(daSettings.bgColor)document.body.style.backgroundColor=daSettings.bgColor; if(daSettings.font)document.body.style.fontFamily=daSettings.font; if(daSettings.cursorUrl)document.body.style.cursor=`url("${daSettings.cursorUrl.replace(/"/g,'%22')}"), auto`; else if(daSettings.cursor)document.body.style.cursor=daSettings.cursor; document.addEventListener('keydown',e=>{if(e.key===(daSettings.panicKey||'`')){const u=daSettings.panicUrl||'https://google.com';location.href=u;}}); document.getElementById('bgColorPicker')?.addEventListener('input',e=>{document.body.style.backgroundImage='none';document.body.style.backgroundColor=e.target.value;daSettings.bgColor=e.target.value;saveDA();}); document.getElementById('bgImageFile')?.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{document.body.style.backgroundImage=`url("${r.result}")`;daSettings.bgImage=r.result;saveDA();};r.readAsDataURL(f);}); document.getElementById('customFontInput')?.addEventListener('change',e=>{const name=e.target.value.trim();if(name){document.body.style.fontFamily=`'${name}', sans-serif`;daSettings.font=`'${name}', sans-serif`;saveDA();}}); document.getElementById('fontSelect')?.addEventListener('change',e=>{if(e.target.value==='custom')document.getElementById('customFontRow').style.display='flex';else document.getElementById('customFontRow').style.display='none';}); })();
+
 // ── FIREBASE CHATROOMS ───────────────────────
 const firebaseConfig = {
   apiKey: "AIzaSyAHoknkdbT1FllzsBqZTuIcixWYbt_FaZ8",
@@ -1526,6 +1718,11 @@ let chatUsername = '';
 let chatCurrentRoom = 'general';
 let chatRooms = ['general'];
 let chatRoomListener = null;
+let chatRoomLocks = {};
+let chatUnlockedRooms = {};
+let pendingChatRoomUnlock = null;
+chatRoomLocks.general = false;
+chatUnlockedRooms.general = true;
 
 function initChat() {
   if (chatInitialized) return;
@@ -1550,7 +1747,8 @@ function initChat() {
     }
   } catch (e) {}
 
-  // Listen for room list
+  // Listen for room list. Each room can be either the old boolean format
+  // (unlocked) or an object such as {locked:true,passwordHash:"..."}.
   chatDb.ref('rooms').on('value', (snap) => {
     const val = snap.val();
     if (val) {
@@ -1573,7 +1771,10 @@ function renderChatRoomTabs() {
     tabWrap.className = 'chat-room-tab-wrap';
 
     const btn = document.createElement('div');
-    btn.className = 'chat-room-tab' + (room === chatCurrentRoom ? ' active' : '');
+    const meta = chatDb ? chatDb.ref('rooms/' + room) : null;
+    // The room metadata is loaded asynchronously below; use the cached lock map
+    // when available so locked rooms are visibly marked.
+    btn.className = 'chat-room-tab' + (room === chatCurrentRoom ? ' active' : '') + (chatRoomLocks[room] ? ' locked' : '');
     btn.textContent = '#' + room;
     btn.onclick = () => switchChatRoom(room);
     tabWrap.appendChild(btn);
@@ -1592,6 +1793,10 @@ function renderChatRoomTabs() {
 }
 
 function deleteChatRoom(room) {
+  if (!isAdmin) {
+    alert('Admin mode is required to delete chatrooms.');
+    return;
+  }
   if (!confirm('Delete #' + room + ' and all its messages? This cannot be undone.')) return;
   chatDb.ref('rooms/' + room).remove();
   chatDb.ref('messages/' + room).remove();
@@ -1600,7 +1805,35 @@ function deleteChatRoom(room) {
   }
 }
 
-function switchChatRoom(room) {
+async function switchChatRoom(room) {
+  if (!chatDb) return;
+
+  // Check the room's lock before attaching a message listener.
+  let roomMeta = null;
+  try {
+    const snap = await chatDb.ref('rooms/' + room).once('value');
+    roomMeta = snap.val();
+  } catch (e) {
+    alert('Could not check this room. Please try again.');
+    return;
+  }
+
+  const locked = !!(roomMeta && typeof roomMeta === 'object' && roomMeta.locked && roomMeta.passwordHash);
+  chatRoomLocks[room] = locked;
+  renderChatRoomTabs();
+
+  // Admin mode bypasses every room password. This lets an authenticated
+  // admin enter any locked room without needing the room password.
+  if (locked && !isAdmin && !chatUnlockedRooms[room]) {
+    pendingChatRoomUnlock = { room, passwordHash: roomMeta.passwordHash };
+    openChatRoomUnlock(room);
+    return;
+  }
+
+  if (isAdmin) {
+    chatUnlockedRooms[room] = true;
+  }
+
   chatCurrentRoom = room;
   document.getElementById('chatMessageInput').placeholder = 'Message #' + room;
   renderChatRoomTabs();
@@ -1618,6 +1851,50 @@ function switchChatRoom(room) {
       : [];
     renderChatMessages(msgs);
   });
+}
+
+async function hashChatRoomPassword(password) {
+  const data = new TextEncoder().encode(password);
+  const digest = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function openChatRoomUnlock(room) {
+  const modal = document.getElementById('chatLockModal');
+  document.getElementById('chatLockTitle').textContent = '🔒 #' + room + ' is locked';
+  document.getElementById('chatLockDescription').textContent = 'Enter the password to join this room.';
+  const input = document.getElementById('chatUnlockPassword');
+  input.value = '';
+  modal.classList.remove('hidden');
+  modal.setAttribute('aria-hidden', 'false');
+  setTimeout(() => input.focus(), 0);
+}
+
+function cancelChatRoomUnlock() {
+  const modal = document.getElementById('chatLockModal');
+  modal.classList.add('hidden');
+  modal.setAttribute('aria-hidden', 'true');
+  pendingChatRoomUnlock = null;
+}
+
+async function submitChatRoomUnlock() {
+  if (!pendingChatRoomUnlock) return;
+  const input = document.getElementById('chatUnlockPassword');
+  const password = input.value;
+  if (!password) return;
+
+  const hash = await hashChatRoomPassword(password);
+  if (hash !== pendingChatRoomUnlock.passwordHash) {
+    input.value = '';
+    input.focus();
+    alert('Incorrect room password.');
+    return;
+  }
+
+  const room = pendingChatRoomUnlock.room;
+  chatUnlockedRooms[room] = true;
+  cancelChatRoomUnlock();
+  switchChatRoom(room);
 }
 
 function renderChatMessages(msgs) {
@@ -1659,6 +1936,10 @@ function renderChatMessages(msgs) {
 }
 
 function deleteChatMessage(key) {
+  if (!isAdmin) {
+    alert('Admin mode is required to delete messages.');
+    return;
+  }
   chatDb.ref('messages/' + chatCurrentRoom + '/' + key).remove();
 }
 
@@ -1672,13 +1953,42 @@ function setChatUsername() {
   } catch (e) {}
 }
 
-function createChatRoom() {
+async function createChatRoom() {
   const input = document.getElementById('chatNewRoomInput');
+  const lockBox = document.getElementById('chatNewRoomLock');
+  const passwordInput = document.getElementById('chatNewRoomPassword');
   const val = input.value.trim().toLowerCase().replace(/[^a-z0-9-]/g, '');
   if (!val) return;
-  chatDb.ref('rooms/' + val).set(true);
-  switchChatRoom(val);
+
+  const password = passwordInput.value;
+  if (lockBox.checked && !password) {
+    alert('Enter a password for the locked room.');
+    passwordInput.focus();
+    return;
+  }
+
+  const existing = await chatDb.ref('rooms/' + val).once('value');
+  if (existing.exists()) {
+    alert('That room already exists. Choose another room name.');
+    return;
+  }
+
+  let roomData = true;
+  if (lockBox.checked) {
+    roomData = {
+      locked: true,
+      passwordHash: await hashChatRoomPassword(password),
+      createdAt: Date.now()
+    };
+  }
+
+  await chatDb.ref('rooms/' + val).set(roomData);
   input.value = '';
+  passwordInput.value = '';
+  lockBox.checked = false;
+  passwordInput.classList.remove('show');
+  chatUnlockedRooms[val] = true;
+  switchChatRoom(val);
 }
 
 function sendChatMessage() {
@@ -1701,8 +2011,43 @@ function sendChatMessage() {
 document.addEventListener('keydown', (e) => {
   if (e.target && e.target.id === 'chatMessageInput' && e.key === 'Enter') sendChatMessage();
   if (e.target && e.target.id === 'chatUsernameInput' && e.key === 'Enter') setChatUsername();
-  if (e.target && e.target.id === 'chatNewRoomInput' && e.key === 'Enter') createChatRoom();
+  if (e.target && (e.target.id === 'chatNewRoomInput' || e.target.id === 'chatNewRoomPassword') && e.key === 'Enter') createChatRoom();
+  if (e.target && e.target.id === 'chatUnlockPassword') {
+    if (e.key === 'Enter') { e.preventDefault(); submitChatRoomUnlock(); }
+    if (e.key === 'Escape') { e.preventDefault(); cancelChatRoomUnlock(); }
+  }
 });
+
+const chatLockCancelBtn = document.getElementById('chatLockCancelBtn');
+const chatLockUnlockBtn = document.getElementById('chatLockUnlockBtn');
+if (chatLockCancelBtn) {
+  chatLockCancelBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    cancelChatRoomUnlock();
+  });
+}
+if (chatLockUnlockBtn) {
+  chatLockUnlockBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    await submitChatRoomUnlock();
+  });
+}
+
+const chatLockModal = document.getElementById('chatLockModal');
+if (chatLockModal) {
+  chatLockModal.addEventListener('click', (e) => {
+    if (e.target === chatLockModal) cancelChatRoomUnlock();
+  });
+}
+
+const chatLockCheckbox = document.getElementById('chatNewRoomLock');
+if (chatLockCheckbox) {
+  chatLockCheckbox.addEventListener('change', () => {
+    document.getElementById('chatNewRoomPassword').classList.toggle('show', chatLockCheckbox.checked);
+  });
+}
 
 // ── ADMIN MODE ────────────────────────────────
 // Password check now happens server-side — replace this URL with your own
@@ -1772,6 +2117,17 @@ function showAdminPasswordModal() {
       document.getElementById('adminToggleBtn').classList.add('active');
       document.getElementById('adminToggleBtn').textContent = '🔓 Admin ON';
       overlay.remove();
+
+      // Admin has unrestricted room access. Close any password prompt and
+      // immediately enter the room that was being blocked, if applicable.
+      if (pendingChatRoomUnlock) {
+        const room = pendingChatRoomUnlock.room;
+        chatUnlockedRooms[room] = true;
+        cancelChatRoomUnlock();
+        switchChatRoom(room);
+      } else if (chatCurrentRoom) {
+        switchChatRoom(chatCurrentRoom);
+      }
     } else {
       errorMsg.classList.remove('hidden');
       input.value = '';
