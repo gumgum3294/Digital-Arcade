@@ -10,6 +10,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+<script>
+(function(){try{var s=JSON.parse(localStorage.getItem('daSettings')||'{}');if(s.bgPreset==='vantaFog'||s.bgPreset==='vantaNet'){document.documentElement.setAttribute('data-da-vanta-pending','1');}}catch(e){}})();
+</script>
+<style>html[data-da-vanta-pending="1"] body{background:#000!important;background-image:none!important;}</style>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
 
@@ -1711,7 +1715,30 @@ function savePanicSettings(){ const k=(document.getElementById('panicKeyInput').
 function openSettings(){ hideAll(); document.getElementById('settingsArea').classList.remove('hidden'); renderThemes(); document.getElementById('panicKeyInput').value=daSettings.panicKey||'`'; document.getElementById('panicUrlInput').value=daSettings.panicUrl||'https://google.com'; document.getElementById('bgImageUrl').value=daSettings.bgImage||''; document.getElementById('bgColorPicker').value=daSettings.bgColor||'#050509'; document.getElementById('fontSelect').value=daSettings.font||"'Share Tech Mono', monospace"; document.getElementById('cursorSelect').value=daSettings.cursor||'default'; document.getElementById('cursorUrl').value=daSettings.cursorUrl||''; if(daSettings.bgPreset==='vantaFog') applyVantaFogBackground(); if(daSettings.bgPreset==='vantaNet') applyVantaNetBackground(); if(daSettings.theme)applyTheme(daSettings.theme); else document.querySelectorAll('.theme-card').forEach(x=>x.classList.toggle('active',x.dataset.theme==='Abyss')); }
 function openSettingsAboutBlank(){ const w=window.open('about:blank','_blank'); if(!w)return; w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Digital Arcade</title><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}iframe{width:100%;height:100%;border:0}</style></head><body><iframe src="'+location.href.replace(/"/g,'&quot;')+'"></iframe></body></html>');w.document.close(); const u=document.getElementById('panicUrlInput').value.trim()||'https://google.com'; setTimeout(()=>{try{location.href=u}catch(e){}},80); }
 function resetArcadeSettings(){ localStorage.removeItem('daSettings'); daSettings={}; document.body.style.background='';document.body.style.fontFamily='';document.body.style.cursor=''; const r=document.documentElement.style; Object.entries({'--accent':'#7c3aed','--accent2':'#a855f7','--glow':'rgba(124,58,237,0.6)','--text':'#e2e2f0','--muted':'#8888aa','--border':'rgba(124,58,237,0.35)','--surface':'rgba(8,8,18,0.84)','--surface2':'rgba(18,18,32,0.88)'}).forEach(([k,v])=>r.setProperty(k,v));openSettings(); }
-(function initDASettings(){ renderThemes(); if(daSettings.theme)applyTheme(daSettings.theme); if(daSettings.bgImage)document.body.style.backgroundImage=`url("${daSettings.bgImage.replace(/"/g,'%22')}")`; if(daSettings.bgColor)document.body.style.backgroundColor=daSettings.bgColor; if(daSettings.font)document.body.style.fontFamily=daSettings.font; if(daSettings.cursorUrl)document.body.style.cursor=`url("${daSettings.cursorUrl.replace(/"/g,'%22')}"), auto`; else if(daSettings.cursor)document.body.style.cursor=daSettings.cursor; document.addEventListener('keydown',e=>{if(e.key===(daSettings.panicKey||'`')){const u=daSettings.panicUrl||'https://google.com';location.href=u;}}); document.getElementById('bgColorPicker')?.addEventListener('input',e=>{document.body.style.backgroundImage='none';document.body.style.backgroundColor=e.target.value;daSettings.bgColor=e.target.value;saveDA();}); document.getElementById('bgImageFile')?.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{document.body.style.backgroundImage=`url("${r.result}")`;daSettings.bgImage=r.result;saveDA();};r.readAsDataURL(f);}); document.getElementById('customFontInput')?.addEventListener('change',e=>{const name=e.target.value.trim();if(name){document.body.style.fontFamily=`'${name}', sans-serif`;daSettings.font=`'${name}', sans-serif`;saveDA();}}); document.getElementById('fontSelect')?.addEventListener('change',e=>{if(e.target.value==='custom')document.getElementById('customFontRow').style.display='flex';else document.getElementById('customFontRow').style.display='none';}); })();
+(function initDASettings(){ renderThemes(); if(daSettings.theme)applyTheme(daSettings.theme);
+if(daSettings.font)document.body.style.fontFamily=daSettings.font;
+if(daSettings.cursorUrl)document.body.style.cursor=`url("${daSettings.cursorUrl.replace(/"/g,'%22')}"), auto`; else if(daSettings.cursor)document.body.style.cursor=daSettings.cursor;
+// Restore exactly one saved background, with Vanta taking priority over image/color.
+if(daSettings.bgPreset==='vantaFog' || daSettings.bgPreset==='vantaNet'){
+  const startVanta=()=>{
+    if(daSettings.bgPreset==='vantaFog' && window.VANTA?.FOG) applyVantaFogBackground();
+    else if(daSettings.bgPreset==='vantaNet' && window.VANTA?.NET) applyVantaNetBackground();
+    else setTimeout(startVanta,50);
+  };
+  startVanta();
+}else if(daSettings.bgImage){
+  document.body.style.backgroundImage=`url("${daSettings.bgImage.replace(/"/g,'%22')}")`;
+  if(daSettings.bgColor)document.body.style.backgroundColor=daSettings.bgColor;
+}else if(daSettings.bgColor){
+  document.body.style.backgroundImage='none';
+  document.body.style.backgroundColor=daSettings.bgColor;
+}
+document.documentElement.removeAttribute('data-da-vanta-pending');
+document.addEventListener('keydown',e=>{if(e.key===(daSettings.panicKey||'`')){const u=daSettings.panicUrl||'https://google.com';location.href=u;}});
+document.getElementById('bgColorPicker')?.addEventListener('input',e=>{destroyVantaFog();document.body.style.backgroundImage='none';document.body.style.backgroundColor=e.target.value;daSettings.bgColor=e.target.value;delete daSettings.bgImage;delete daSettings.bgPreset;saveDA();});
+document.getElementById('bgImageFile')?.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;destroyVantaFog();const r=new FileReader();r.onload=()=>{document.body.style.backgroundImage=`url("${r.result}")`;daSettings.bgImage=r.result;delete daSettings.bgPreset;saveDA();};r.readAsDataURL(f);});
+document.getElementById('customFontInput')?.addEventListener('change',e=>{const name=e.target.value.trim();if(name){document.body.style.fontFamily=`'${name}', sans-serif`;daSettings.font=`'${name}', sans-serif`;saveDA();}});
+document.getElementById('fontSelect')?.addEventListener('change',e=>{if(e.target.value==='custom')document.getElementById('customFontRow').style.display='flex';else document.getElementById('customFontRow').style.display='none';}); })();;
 
 // ── FIREBASE CHATROOMS ───────────────────────
 const firebaseConfig = {
@@ -2203,8 +2230,23 @@ function cherriMusicShow(which,button){
   document.querySelectorAll('.cherri-music-nav').forEach(b=>b.classList.remove('active')); if(button)button.classList.add('active');
   if(which==='browse')cherriMusicRenderRecent(); if(which==='library')cherriMusicRenderLibrary();
 }
-function cherriMusicInit(){cherriMusicRenderRecent();cherriMusicRenderLibrary();cherriMusicLoadBrowse();}
+function initSavedVantaBackground(){
+  const preset=daSettings.bgPreset;
+  if(preset!=='vantaFog' && preset!=='vantaNet') return;
+  const start=()=>{
+    if(preset==='vantaFog'){
+      if(window.VANTA && window.VANTA.FOG) applyVantaFogBackground();
+      else setTimeout(start,100);
+    }else{
+      if(window.VANTA && window.VANTA.NET) applyVantaNetBackground();
+      else setTimeout(start,100);
+    }
+  };
+  if(document.readyState==='complete') setTimeout(start,0);
+  else window.addEventListener('load',()=>setTimeout(start,0),{once:true});
+}
 
+initSavedVantaBackground();
 cherriMusicInit();
 </script>
 </body>
