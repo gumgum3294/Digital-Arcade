@@ -1,6 +1,6 @@
 # 🕹️ Digital Arcade
 
-A free, browser-based game hub with 20+ playable titles, bookmarklets, proxy tools, and more — all accessible from one site.
+A free, browser-based game hub with 800+ playable titles, bookmarklets, proxy tools, and more — all accessible from one site.
 
 ## 🌐 Live Site
 
@@ -12,7 +12,7 @@ Digital Arcade is a web-based gaming portal that brings together classic and ind
 
 ## ✨ Features
 
-- **20+ Browser Games** — OvO, Cookie Clicker, Run 3, Geometry Dash, Friday Night Funkin', FNAF, Delta Rune, Basket Bros, Alien Hominid, Black Jack, Oregon Trail, 1v1 LOL, Slow Roads, Chicken War, Sled Rider, Tanuki Sunset, Rocket Goal, Tomb of the Mask, Asteroids, Pong Multiplayer, and more
+- **800+ Browser Games** — OvO, Cookie Clicker, Run 3, Geometry Dash, Friday Night Funkin', FNAF, Delta Rune, Basket Bros, Alien Hominid, Black Jack, Oregon Trail, 1v1 LOL, Slow Roads, Chicken War, Sled Rider, Tanuki Sunset, Rocket Goal, Tomb of the Mask, Asteroids, Pong Multiplayer, and more
 - **Bookmarklets** — Extension remover, YouTube bypass, Google Snake mods, and other tools you can save to your bookmarks bar
 - **Console Scripts** — Additional browser console utilities
 - **Proxy Support** — Built-in proxy pages to access content on restricted networks
@@ -39,7 +39,7 @@ Individual game repos are available at [github.com/gumgum3294](https://github.co
 
 ## 📝 Note
 
-Digital Arcade's beta single file is now out tools are now working.
+Digital Arcade's beta single file and is getting a lot of updates.
 
 ## 📜 License
 
