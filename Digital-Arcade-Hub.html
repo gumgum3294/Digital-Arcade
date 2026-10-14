@@ -1072,6 +1072,125 @@
       </div>
     </div>
 
+    <!-- WEBSITES -->
+    <div class="tool-area hidden" id="websitesArea">
+      <div class="game-header"><div><div class="game-title">🌐 Websites</div><div class="game-source">Copy a link or open a website in a new tab</div></div></div>
+      <div style="margin:12px 0 18px"><input id="websitesSearch" type="search" placeholder="Search websites..." oninput="filterWebsites()" style="width:100%;max-width:480px;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);outline:none" /></div>
+      <div id="websitesGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px">
+        <div class="website-card" data-name="astra" data-url="https://saugatrastra-cacw.creative-words.se/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Astra</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://saugatrastra-cacw.creative-words.se/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="voya" data-url="https://voya.wib.ro/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Voya</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://voya.wib.ro/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="aurora" data-url="https://aurora.solidaritysafaris.com/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Aurora</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://aurora.solidaritysafaris.com/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="bull-33" data-url="https://bull33.org/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Bull-33</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://bull33.org/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="krypton" data-url="https://krypt-on.top/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Krypton</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://krypt-on.top/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="re:vault" data-url="https://endiseducation.org/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Re:Vault</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://endiseducation.org/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="triplet hd" data-url="https://triplethd.online/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">TripleT Hd</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://triplethd.online/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="void-network" data-url="https://vng.lol/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Void-Network</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://vng.lol/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="void network 2" data-url="https://brianthomas-studyhub.s3.amazonaws.com/index.html" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Void Network 2</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://brianthomas-studyhub.s3.amazonaws.com/index.html</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="material" data-url="https://supermath.site/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Material</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://supermath.site/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="nocturne" data-url="https://nocturne.lol/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Nocturne</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://nocturne.lol/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="nocturne 2" data-url="https://no.maryadafoundation.org.np/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Nocturne 2</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://no.maryadafoundation.org.np/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="abstract" data-url="https://ixl311651-saugatr.aumentika.cl/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Abstract</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://ixl311651-saugatr.aumentika.cl/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="opium" data-url="https://opium.best/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Opium</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://opium.best/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="fern" data-url="https://fern.best/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Fern</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://fern.best/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="daydream x" data-url="https://daydreamx.pro/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">DayDream X</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://daydreamx.pro/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="quasar" data-url="https://saugatrquasar-odgs.dnsear.com/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Quasar</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://saugatrquasar-odgs.dnsear.com/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="novene" data-url="https://saugatr-arts884520.anymor.org/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Novene</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://saugatr-arts884520.anymor.org/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="rosin" data-url="http://springwaterbaptist.org/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Rosin</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">http://springwaterbaptist.org/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="vortex" data-url="https://vtx.chat/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Vortex</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://vtx.chat/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="vortex 2" data-url="https://classroom.google.com.pikid71.me/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Vortex 2</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://classroom.google.com.pikid71.me/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+        <div class="website-card" data-name="solara os" data-url="https://solaraos.lol/" style="min-width:0;padding:15px;border:1px solid var(--border);border-radius:12px;background:rgba(12, 9, 24, 0.94);display:flex;flex-direction:column;gap:10px">
+          <strong style="font-size:1rem;color:var(--text)">Solara os</strong>
+          <div style="font-size:.78rem;color:var(--muted);overflow-wrap:anywhere;line-height:1.45">https://solaraos.lol/</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto"><button class="ctrl-btn" type="button" onclick="copyWebsiteLink(this)" style="flex:1">📋 Copy link</button><button class="ctrl-btn" type="button" onclick="openWebsiteLink(this)" style="flex:1">↗ Open</button></div>
+        </div>
+      </div>
+      <div id="websitesEmpty" class="hidden" style="padding:20px;color:var(--muted)">No websites match your search.</div>
+    </div>
+
     <!-- CHATROOMS -->
     <div class="chat-area hidden" id="chatArea">
       <div class="game-header">
@@ -1116,6 +1235,7 @@ const ENTRIES = [
   { name:"Cherri Single File", url:"__cherri__",       cat:"tools",  icon:"🍒", tag:"TOOL"   },
   { name:"Music Player",       url:"__music__",        cat:"tools",  icon:"🎵", tag:"TOOL"   },
   { name:"HTML Runner",        url:"__htmlrunner__",  cat:"tools",  icon:"💻", tag:"TOOL"   },
+  { name:"Websites",           url:"__websites__",    cat:"tools",  icon:"🌐", tag:"LINKS"   },
   { name:"Live Sports",         url:"__sports__",      cat:"sports", icon:"🏆", tag:"LIVE"   },
   // CHATROOMS
   { name:"💬 Chatrooms", url:"__chat__", cat:"chat", icon:"💬", tag:"LIVE" },
@@ -1163,6 +1283,37 @@ document.getElementById('sidebarToggle').addEventListener('click', () => {
   btn.title = sidebarOpen ? 'Hide sidebar' : 'Show sidebar';
 });
 
+// WEBSITES PAGE
+function filterWebsites() {
+  const query = (document.getElementById('websitesSearch')?.value || '').trim().toLowerCase();
+  let shown = 0;
+  document.querySelectorAll('#websitesGrid .website-card').forEach(card => {
+    const match = card.dataset.name.includes(query) || card.dataset.url.toLowerCase().includes(query);
+    card.style.display = match ? '' : 'none';
+    if (match) shown++;
+  });
+  document.getElementById('websitesEmpty')?.classList.toggle('hidden', shown !== 0);
+}
+async function copyWebsiteLink(button) {
+  const url = button.closest('.website-card')?.dataset.url;
+  if (!url) return;
+  try {
+    await navigator.clipboard.writeText(url);
+  } catch (err) {
+    const field = document.createElement('textarea');
+    field.value = url; field.style.position = 'fixed'; field.style.opacity = '0';
+    document.body.appendChild(field); field.select();
+    const copied = document.execCommand('copy'); field.remove();
+    if (!copied) { window.prompt('Copy this link:', url); return; }
+  }
+  const old = button.textContent; button.textContent = '✓ Copied!';
+  setTimeout(() => { button.textContent = old; }, 1300);
+}
+function openWebsiteLink(button) {
+  const url = button.closest('.website-card')?.dataset.url;
+  if (url) window.open(url, '_blank', 'noopener,noreferrer');
+}
+
 // RENDER
 
 function renderList() {
@@ -1209,7 +1360,7 @@ function makeItem(e) {
 }
 
 function hideAll() {
-  ['homeScreen','gameArea','moviesArea','bookmarkletsArea','consoleArea','cherriArea','musicArea','chatArea','htmlRunnerArea','sportsArea','settingsArea']
+  ['homeScreen','gameArea','moviesArea','bookmarkletsArea','consoleArea','cherriArea','musicArea','chatArea','htmlRunnerArea','sportsArea','settingsArea','websitesArea']
     .forEach(id => document.getElementById(id).classList.add('hidden'));
 }
 
@@ -1218,6 +1369,7 @@ function loadEntry(entry) {
   renderList();
   hideAll();
   const map = {
+    '__websites__':    'websitesArea',
     '__movies__':      'moviesArea',
     '__bookmarklets__':'bookmarkletsArea',
     '__console__':     'consoleArea',
