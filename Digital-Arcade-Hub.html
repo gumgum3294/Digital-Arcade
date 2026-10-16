@@ -25,6 +25,10 @@
     .cinera-subtitle{color:var(--muted);font-size:12px;margin-top:3px}
     .cinera-frame-wrap{width:100%;height:calc(100% - 54px);min-height:460px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#000;box-shadow:0 0 25px rgba(0,0,0,.35)}
     #cineraFrame{display:block;width:100%;height:100%;border:0;background:#000}
+    .proxy-page{height:100%;min-height:0;display:flex;flex-direction:column;gap:12px;padding:16px;overflow:auto}
+    .proxy-frame-wrap{flex:1;min-height:520px;height:calc(100vh - 190px);border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#05050a;box-shadow:0 0 25px rgba(0,0,0,.35)}
+    #proxyFrame{display:block;width:100%;height:100%;border:0;background:#fff} .proxy-frame-wrap:fullscreen{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;min-height:0!important;border:0!important;border-radius:0!important;overflow:hidden!important;background:#000!important;z-index:2147483647!important;padding:0!important;margin:0!important;pointer-events:auto!important} .proxy-frame-wrap:fullscreen #proxyFrame{display:block;width:100%!important;height:100%!important;min-height:100%!important;border:0!important;background:#fff;pointer-events:auto!important} #proxyFrame:fullscreen{width:100vw;height:100vh;border:0;background:#fff}
+    .proxy-note{color:var(--muted);font-size:12px;line-height:1.5}
 </style>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
@@ -1191,6 +1195,18 @@
       <div id="websitesEmpty" class="hidden" style="padding:20px;color:var(--muted)">No websites match your search.</div>
     </div>
 
+    <!-- PROXY -->
+    <div class="tool-area hidden" id="proxyArea">
+      <div class="proxy-page">
+        <div class="game-header">
+          <div><div class="game-title">🌐 Proxy</div><div class="game-source">Embedded StudyHub website</div></div>
+          <div class="game-controls"><button class="ctrl-btn" type="button" onclick="document.getElementById('proxyFrameWrap').requestFullscreen?.().catch(()=>{})">⛶ Fullscreen Embed</button><button class="ctrl-btn" type="button" onclick="window.open('https://studyhub.school.biblosconsulting.ru/','_blank','noopener')">↗ Open in new tab</button></div>
+        </div>
+        <div class="proxy-note">Redirect protection is enabled: the embedded site cannot navigate the entire Digital Arcade page or open pop-up windows from inside this frame. Links and redirects within the frame itself may still work. If the site refuses to display, use “Open in new tab.”</div>
+        <div class="proxy-frame-wrap" id="proxyFrameWrap"><iframe id="proxyFrame" src="https://studyhub.school.biblosconsulting.ru/" title="StudyHub" loading="lazy" sandbox="allow-scripts allow-forms allow-same-origin allow-pointer-lock allow-popups allow-downloads allow-presentation" allow="fullscreen; autoplay; clipboard-read; clipboard-write; picture-in-picture; gamepad" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+      </div>
+    </div>
+
     <!-- CHATROOMS -->
     <div class="chat-area hidden" id="chatArea">
       <div class="game-header">
@@ -1236,6 +1252,7 @@ const ENTRIES = [
   { name:"Music Player",       url:"__music__",        cat:"tools",  icon:"🎵", tag:"TOOL"   },
   { name:"HTML Runner",        url:"__htmlrunner__",  cat:"tools",  icon:"💻", tag:"TOOL"   },
   { name:"Websites",           url:"__websites__",    cat:"tools",  icon:"🌐", tag:"LINKS"   },
+  { name:"Proxy",              url:"__proxy__",       cat:"tools",  icon:"🛡️", tag:"WEB"     },
   { name:"Live Sports",         url:"__sports__",      cat:"sports", icon:"🏆", tag:"LIVE"   },
   // CHATROOMS
   { name:"💬 Chatrooms", url:"__chat__", cat:"chat", icon:"💬", tag:"LIVE" },
@@ -1360,7 +1377,7 @@ function makeItem(e) {
 }
 
 function hideAll() {
-  ['homeScreen','gameArea','moviesArea','bookmarkletsArea','consoleArea','cherriArea','musicArea','chatArea','htmlRunnerArea','sportsArea','settingsArea','websitesArea']
+  ['homeScreen','gameArea','moviesArea','bookmarkletsArea','consoleArea','cherriArea','musicArea','chatArea','htmlRunnerArea','sportsArea','settingsArea','websitesArea','proxyArea']
     .forEach(id => document.getElementById(id).classList.add('hidden'));
 }
 
@@ -1370,6 +1387,7 @@ function loadEntry(entry) {
   hideAll();
   const map = {
     '__websites__':    'websitesArea',
+    '__proxy__':       'proxyArea',
     '__movies__':      'moviesArea',
     '__bookmarklets__':'bookmarkletsArea',
     '__console__':     'consoleArea',
@@ -1399,43 +1417,34 @@ function loadEntry(entry) {
   ls.style.opacity = '1'; ls.style.display = 'flex';
 
   const iframe = document.getElementById('mainIframe');
-  if (entry.cherri) {
-    // Cherri games are complete HTML documents. Fetch the document, preserve its
-    // original relative-asset base, and render it inside a nested game iframe.
-    iframe.srcdoc = '<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}iframe{display:block;width:100%;height:100%;border:0}</style></head><body><div style="color:#fff;font:14px Arial;padding:20px">Loading game…</div></body></html>';
-    fetch(entry.url, { cache: 'no-store' })
-      .then(response => {
-        if (!response.ok) throw new Error('HTTP ' + response.status);
-        return response.text();
-      })
-      .then(html => {
-        const baseHref = entry.url.substring(0, entry.url.lastIndexOf('/') + 1);
-        if (!/<base\b[^>]*>/i.test(html)) {
-          const baseTag = `<base href="${baseHref.replace(/"/g, '&quot;')}">`;
-          if (/<head\b[^>]*>/i.test(html)) html = html.replace(/<head\b[^>]*>/i, m => m + baseTag);
-          else html = baseTag + html;
-        }
-        // Escape the fetched document for an HTML srcdoc attribute. JSON.stringify()
-        // cannot be inserted directly into an unquoted srcdoc attribute because the
-        // browser will interpret the document's quotes/markup as outer HTML.
-        const escapedGameHtml = html
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;');
-        const outer = '<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}iframe{display:block;width:100%;height:100%;border:0}</style></head><body><iframe sandbox="allow-scripts allow-forms allow-modals allow-pointer-lock allow-same-origin" allowfullscreen allow="autoplay; fullscreen; gamepad; microphone; camera" srcdoc="' + escapedGameHtml + '"></iframe></body></html>';
-        iframe.srcdoc = outer;
-        hideLoading();
-      })
-      .catch(error => {
-        iframe.srcdoc = '<html><body style="margin:0;background:#000;color:#fff;font-family:Arial;display:grid;place-items:center;height:100vh"><div style="text-align:center"><h2>Game failed to load</h2><p>' + String(error.message).replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</p></div></body></html>';
-        hideLoading();
-      });
-  } else {
-    iframe.srcdoc = '';
-    iframe.src = entry.url;
+
+  // Load games as normal iframe navigations instead of fetching their HTML.
+  // Many GitHub Pages and game hosts do not allow cross-origin fetches (CORS),
+  // even though the same URL can be opened or embedded directly.
+  iframe.onload = hideLoading;
+  iframe.srcdoc = '';
+  iframe.removeAttribute('srcdoc');
+  iframe.src = entry.url;
+
+  // Some sites block iframe embedding without firing an error event. Keep the
+  // direct-open fallback available in the source bar for those cases.
+  const safeUrl = String(entry.url).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const source = document.getElementById('currentGameSource');
+  if (source) {
+    source.innerHTML = `Source: <a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${safeUrl}</a> · <a href="${safeUrl}" target="_blank" rel="noopener noreferrer">Open in new tab ↗</a>`;
   }
 
+  // A browser can report a successful iframe load even when the remote host
+  // refuses embedding, so do not label every blank frame as a network failure.
+  const loadStartedFor = entry;
+  window.setTimeout(() => {
+    if (currentEntry !== loadStartedFor || iframe.src !== entry.url) return;
+    const loading = document.getElementById('loadingScreen');
+    if (loading && loading.style.display !== 'none') {
+      const text = loading.querySelector('.loading-text');
+      if (text) text.innerHTML = 'Still loading… If this game stays blank, <a href="' + safeUrl + '" target="_blank" rel="noopener noreferrer" style="color:#c4a3ff;text-decoration:underline">open it in a new tab ↗</a>.';
+    }
+  }, 10000);
 }
 
 function hideLoading() {
