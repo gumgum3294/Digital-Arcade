@@ -19,12 +19,12 @@
     .movies-mode-btn{border:1px solid var(--border);background:var(--surface2);color:var(--text);border-radius:10px;padding:10px 16px;font-family:inherit;font-weight:700;cursor:pointer;transition:.18s}
     .movies-mode-btn:hover{border-color:var(--accent2);box-shadow:0 0 14px var(--glow)}
     .movies-mode-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
-    .cinera-movies-app{width:100%;height:calc(100vh - 180px);min-height:520px}
-    .cinera-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
-    .cinera-title{font-size:20px;font-weight:900}
-    .cinera-subtitle{color:var(--muted);font-size:12px;margin-top:3px}
-    .cinera-frame-wrap{width:100%;height:calc(100% - 54px);min-height:460px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#000;box-shadow:0 0 25px rgba(0,0,0,.35)}
-    #cineraFrame{display:block;width:100%;height:100%;border:0;background:#000}
+    .nexa-movies-app{width:100%;height:calc(100vh - 180px);min-height:520px}
+    .nexa-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+    .nexa-title{font-size:20px;font-weight:900}
+    .nexa-subtitle{color:var(--muted);font-size:12px;margin-top:3px}
+    .nexa-frame-wrap{width:100%;height:calc(100% - 54px);min-height:460px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#000;box-shadow:0 0 25px rgba(0,0,0,.35)}
+    #nexaFrame{display:block;width:100%;height:100%;border:0;background:#000}
     .proxy-page{height:100%;min-height:0;display:flex;flex-direction:column;gap:12px;padding:16px;overflow:auto}
     .proxy-frame-wrap{flex:1;min-height:520px;height:calc(100vh - 190px);border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#05050a;box-shadow:0 0 25px rgba(0,0,0,.35)}
     #proxyFrame{display:block;width:100%;height:100%;border:0;background:#fff} .proxy-frame-wrap:fullscreen{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;min-height:0!important;border:0!important;border-radius:0!important;overflow:hidden!important;background:#000!important;z-index:2147483647!important;padding:0!important;margin:0!important;pointer-events:auto!important} .proxy-frame-wrap:fullscreen #proxyFrame{display:block;width:100%!important;height:100%!important;min-height:100%!important;border:0!important;background:#fff;pointer-events:auto!important} #proxyFrame:fullscreen{width:100vw;height:100vh;border:0;background:#fff}
@@ -780,7 +780,7 @@
       <div class="game-header"><div><div class="game-title">🎬 Movies &amp; TV Shows</div><div class="game-source">movies + TV</div></div></div>
       <div class="movies-mode-switch" role="tablist" aria-label="Movies and TV source">
         <button id="moviesModeNormal" class="movies-mode-btn active" type="button" onclick="setMoviesMode('normal'); return false;">Movies &amp; TV Shows</button>
-        <button id="moviesModeCinera" class="movies-mode-btn" type="button" onclick="setMoviesMode('cinera'); return false;">Cinera</button>
+        <button id="moviesModenexa" class="movies-mode-btn" type="button" onclick="setMoviesMode('nexa'); return false;">nexa</button>
       </div>
       <div id="cherriMoviesApp" class="cherri-movies-app">
         <div class="cherri-movie-window">
@@ -800,16 +800,16 @@
           </div>
         </div>
       </div>
-      <div id="cineraMoviesApp" class="cinera-movies-app hidden">
-        <div class="cinera-header">
+      <div id="nexaMoviesApp" class="nexa-movies-app hidden">
+        <div class="nexa-header">
           <div>
-            <div class="cinera-title">🎬 Cinera</div>
-            <div class="cinera-subtitle">Embedded Cinera player</div>
+            <div class="nexa-title">🎬 nexa</div>
+            <div class="nexa-subtitle">Embedded nexa player</div>
           </div>
           
         </div>
-        <div class="cinera-frame-wrap">
-          <iframe id="cineraFrame" src="https://cinera.cc/" title="Cinera" sandbox="allow-forms allow-modals allow-pointer-lock allow-presentation allow-scripts allow-same-origin" referrerpolicy="no-referrer" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        <div class="nexa-frame-wrap">
+          <iframe id="nexaFrame" src="https://nexa.mov/" title="nexa" sandbox="allow-forms allow-modals allow-pointer-lock allow-presentation allow-scripts allow-same-origin" referrerpolicy="no-referrer" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
     </div>
@@ -1631,26 +1631,26 @@ function initCherriMovies(){
 }
 function setMoviesMode(mode){
   const normalBtn=document.getElementById('moviesModeNormal');
-  const cineraBtn=document.getElementById('moviesModeCinera');
+  const nexaBtn=document.getElementById('moviesModenexa');
   const normal=document.getElementById('cherriMoviesApp');
-  const cinera=document.getElementById('cineraMoviesApp');
-  if(!normalBtn||!cineraBtn||!normal||!cinera)return;
-  const isCinera=mode==='cinera';
-  normal.classList.toggle('hidden',isCinera);
-  cinera.classList.toggle('hidden',!isCinera);
-  normalBtn.classList.toggle('active',!isCinera);
-  cineraBtn.classList.toggle('active',isCinera);
-  if(isCinera){
-    const frame=document.getElementById('cineraFrame');
-    if(frame && (!frame.src || frame.src==='about:blank')) frame.src='https://cinera.cc/';
+  const nexa=document.getElementById('nexaMoviesApp');
+  if(!normalBtn||!nexaBtn||!normal||!nexa)return;
+  const isnexa=mode==='nexa';
+  normal.classList.toggle('hidden',isnexa);
+  nexa.classList.toggle('hidden',!isnexa);
+  normalBtn.classList.toggle('active',!isnexa);
+  nexaBtn.classList.toggle('active',isnexa);
+  if(isnexa){
+    const frame=document.getElementById('nexaFrame');
+    if(frame && (!frame.src || frame.src==='about:blank')) frame.src='https://nexa.mov/';
   }
 }
 function initMoviesModeSwitch(){
   const normalBtn=document.getElementById('moviesModeNormal');
-  const cineraBtn=document.getElementById('moviesModeCinera');
-  if(!normalBtn||!cineraBtn)return;
+  const nexaBtn=document.getElementById('moviesModenexa');
+  if(!normalBtn||!nexaBtn)return;
   normalBtn.onclick=()=>setMoviesMode('normal');
-  cineraBtn.onclick=()=>setMoviesMode('cinera');
+  nexaBtn.onclick=()=>setMoviesMode('nexa');
   setMoviesMode('normal');
 }
 
